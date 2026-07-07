@@ -2,6 +2,7 @@
   "name": "clarito-app",
   "private": true,
   "version": "0.0.0",
+  "homepage": "https://sachinbhojwal.github.io/clarito-app",
   "type": "module",
   "scripts": {
     "dev": "vite",

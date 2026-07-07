@@ -1,4 +1,4 @@
-export const services = [
+export const whyChooseUs = [
   {
     id: 1,
     title: "Cleaning",

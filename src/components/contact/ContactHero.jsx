@@ -1,9 +1,11 @@
-const AboutHero = () => {
+import { Link } from "react-router-dom";
+
+const ContactHero = () => {
   return (
     <section
       className="relative h-[500px] md:h-[600px] flex items-center justify-center overflow-hidden"
       style={{
-        backgroundImage: "url('/images/about-banner.jpg')",
+        backgroundImage: "url('/images/contact-banner.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
@@ -13,6 +15,7 @@ const AboutHero = () => {
 
       {/* Decorative Blur */}
       <div className="absolute top-10 left-10 w-40 h-40 bg-amber-400/20 rounded-full blur-3xl"></div>
+
       <div className="absolute bottom-10 right-10 w-56 h-56 bg-orange-500/20 rounded-full blur-3xl"></div>
 
       {/* Content */}
@@ -20,41 +23,59 @@ const AboutHero = () => {
 
         {/* Badge */}
         <span className="inline-block bg-amber-500/90 px-5 py-2 rounded-full text-sm font-semibold tracking-wide">
-          ABOUT CLARITO
+          CONTACT CLARITO
         </span>
 
         {/* Heading */}
         <h1 className="mt-6 text-4xl md:text-6xl font-extrabold leading-tight">
-          India's Trusted
+          We're Here To Help
           <br />
-          Home Service Platform
+          Contact Our Team
         </h1>
 
         {/* Description */}
         <p className="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-gray-200 leading-8">
-          Clarito connects customers with trusted and verified
-          professionals for Electrical, Plumbing, Cleaning,
-          Painting, Carpenter, AC Repair and many more home
-          services across India.
+          Have questions, need assistance, or want to book a service?
+          Our friendly support team is always ready to help you.
+          Reach out to us anytime and we'll respond as quickly as possible.
         </p>
 
-        {/* Features */}
+        {/* Action Buttons */}
+        <div className="mt-10 flex flex-wrap justify-center gap-5">
+
+          <Link
+            to="/services"
+            className="bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-xl font-semibold transition duration-300 shadow-lg"
+          >
+            Book a Service
+          </Link>
+
+          <a
+            href="tel:+919876543210"
+            className="border-2 border-white hover:bg-white hover:text-gray-900 px-8 py-4 rounded-xl font-semibold transition duration-300"
+          >
+            Call Now
+          </a>
+
+        </div>
+
+        {/* Feature Chips */}
         <div className="mt-10 flex flex-wrap justify-center gap-4">
 
           <div className="bg-white/10 backdrop-blur-md px-6 py-3 rounded-full border border-white/20">
-            👥 10K+ Happy Customers
+            📞 Call Support
           </div>
 
           <div className="bg-white/10 backdrop-blur-md px-6 py-3 rounded-full border border-white/20">
-            ✔ 500+ Verified Professionals
+            📧 Email Support
           </div>
 
           <div className="bg-white/10 backdrop-blur-md px-6 py-3 rounded-full border border-white/20">
-            ⭐ 4.9 Customer Rating
+            📍 Visit Our Office
           </div>
 
           <div className="bg-white/10 backdrop-blur-md px-6 py-3 rounded-full border border-white/20">
-            🛠 50+ Home Services
+            ⚡ Quick Response
           </div>
 
         </div>
@@ -75,4 +96,4 @@ const AboutHero = () => {
   );
 };
 
-export default AboutHero;
+export default ContactHero;

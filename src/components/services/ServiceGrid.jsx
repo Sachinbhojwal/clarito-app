@@ -1,31 +1,50 @@
-import ServiceCard from "../home/ServiceCard";
+import { services } from "../../data/services";
+import ServiceCard from "./ServiceCard";
 
-const ServiceGrid = ({ services }) => {
+const ServiceGrid = () => {
   return (
-    <div className="mt-10">
-      {services.length === 0 ? (
-        <div className="text-center py-20">
-          <h2 className="text-3xl font-bold text-gray-700">
-            No Services Available
+    <section className="py-20 bg-gray-50">
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        {/* Heading */}
+
+        <div className="text-center">
+
+          <span className="inline-block bg-amber-100 text-amber-600 px-5 py-2 rounded-full font-semibold">
+            OUR SERVICES
+          </span>
+
+          <h2 className="mt-5 text-4xl md:text-5xl font-bold text-gray-900">
+            Explore Our Services
           </h2>
 
-          <p className="mt-3 text-gray-500">
-            Please try another category or search keyword.
+          <p className="mt-6 max-w-3xl mx-auto text-gray-600 leading-8">
+            Book trusted professionals for all your home service needs.
+            We provide fast, reliable and affordable services at your
+            doorstep.
           </p>
+
         </div>
-      ) : (
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+
+        {/* Grid */}
+
+        <div className="mt-16 grid gap-8 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+
           {services.map((service) => (
-            <div
+
+            <ServiceCard
               key={service.id}
-              className="transition duration-300 hover:-translate-y-2"
-            >
-              <ServiceCard service={service} />
-            </div>
+              service={service}
+            />
+
           ))}
+
         </div>
-      )}
-    </div>
+
+      </div>
+
+    </section>
   );
 };
 

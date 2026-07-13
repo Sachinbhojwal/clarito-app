@@ -1,61 +1,109 @@
+import { FaStar } from "react-icons/fa";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination } from "swiper/modules";
+
 import { testimonials } from "../../data/testimonials";
+
+import "swiper/css";
+import "swiper/css/pagination";
 
 const Testimonials = () => {
   return (
-    <section className="py-16 sm:py-20 lg:py-24 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+    <section className="py-20 bg-gray-50">
 
-        {/* HEADER */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
         <div className="text-center">
-          <span className="text-yellow-500 font-semibold text-sm sm:text-base">
+
+          <span className="inline-block bg-amber-100 text-amber-600 px-5 py-2 rounded-full font-semibold">
             TESTIMONIALS
           </span>
 
-          <h2 className="mt-3 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">
+          <h2 className="mt-5 text-4xl md:text-5xl font-bold text-gray-900">
             What Our Customers Say
           </h2>
 
-          <p className="mt-3 sm:mt-4 text-sm sm:text-base text-gray-600 max-w-2xl mx-auto">
-            Trusted by homeowners across the city.
+          <p className="mt-5 max-w-3xl mx-auto text-lg text-gray-600 leading-8">
+            Thousands of customers trust Clarito for reliable and professional
+            home services.
           </p>
+
         </div>
 
-        {/* GRID */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mt-10 sm:mt-14">
+        <div className="mt-16">
 
-          {testimonials.map((item) => (
-            <div
-              key={item.id}
-              className="bg-white p-6 sm:p-8 rounded-2xl sm:rounded-3xl shadow-md hover:shadow-xl transition duration-300"
-            >
+          <Swiper
+            modules={[Autoplay, Pagination]}
+            slidesPerView={1}
+            spaceBetween={30}
+            autoplay={{
+              delay: 3500,
+              disableOnInteraction: false,
+            }}
+            pagination={{ clickable: true }}
+            breakpoints={{
+              768: {
+                slidesPerView: 2,
+              },
+              1024: {
+                slidesPerView: 3,
+              },
+            }}
+          >
 
-              {/* STARS */}
-              <div className="text-yellow-500 text-base sm:text-lg">
-                ★★★★★
-              </div>
+            {testimonials.map((item) => (
 
-              {/* REVIEW */}
-              <p className="mt-4 text-sm sm:text-base text-gray-600 leading-relaxed">
-                "{item.review}"
-              </p>
+              <SwiperSlide key={item.id}>
 
-              {/* USER INFO */}
-              <div className="mt-6">
-                <h4 className="font-bold text-base sm:text-lg">
-                  {item.name}
-                </h4>
+                <div className="bg-white rounded-3xl shadow-lg p-8 h-full">
 
-                <span className="text-gray-500 text-xs sm:text-sm">
-                  {item.service}
-                </span>
-              </div>
+                  <div className="flex items-center gap-4">
 
-            </div>
-          ))}
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-16 h-16 rounded-full object-cover"
+                    />
+
+                    <div>
+
+                      <h3 className="text-xl font-bold">
+                        {item.name}
+                      </h3>
+
+                      <p className="text-gray-500">
+                        {item.city}
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                  <div className="flex gap-1 text-amber-500 mt-6">
+
+                    {[...Array(item.rating)].map((_, index) => (
+                      <FaStar key={index} />
+                    ))}
+
+                  </div>
+
+                  <p className="mt-6 text-gray-600 leading-8">
+                    "{item.review}"
+                  </p>
+
+                </div>
+
+              </SwiperSlide>
+
+            ))}
+
+          </Swiper>
 
         </div>
 
       </div>
+
     </section>
   );
 };

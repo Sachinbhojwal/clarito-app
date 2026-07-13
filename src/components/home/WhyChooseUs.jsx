@@ -2,50 +2,55 @@ import { whyChooseUs } from "../../data/whyChooseUs";
 
 const WhyChooseUs = () => {
   return (
-    <section className="py-16 sm:py-20 lg:py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+    <section className="py-20 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* HEADER */}
         <div className="text-center">
-          <span className="text-yellow-500 font-semibold text-sm sm:text-base">
-            WHY CHOOSE US
+
+          <span className="inline-block bg-amber-100 text-amber-600 px-5 py-2 rounded-full font-semibold">
+            WHY CHOOSE CLARITO
           </span>
 
-          <h2 className="mt-3 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">
-            Why Choose Clarito?
+          <h2 className="mt-5 text-4xl md:text-5xl font-bold text-gray-900">
+            Why Thousands Trust Clarito
           </h2>
 
-          <p className="mt-3 sm:mt-4 text-sm sm:text-base text-gray-600 max-w-2xl mx-auto">
-            We make home services simple, reliable and affordable.
+          <p className="mt-5 max-w-3xl mx-auto text-lg text-gray-600 leading-8">
+            We provide trusted, verified and affordable home services with
+            experienced professionals dedicated to delivering the best customer
+            experience.
           </p>
+
         </div>
 
-        {/* GRID */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mt-10 sm:mt-14">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
 
-          {whyChooseUs.map((item) => (
-            <div
-              key={item.id}
-              className="p-6 sm:p-8 rounded-2xl sm:rounded-3xl shadow-md hover:shadow-xl transition duration-300 bg-white border border-gray-100 text-center sm:text-left"
-            >
+          {whyChooseUs.map((item) => {
+            const Icon = item.icon;
 
-              {/* ICON */}
-              <div className="w-12 h-12 sm:w-14 sm:h-14 mx-auto sm:mx-0 rounded-full bg-yellow-500 flex items-center justify-center text-xl sm:text-2xl font-bold text-black">
-                ✓
+            return (
+              <div
+                key={item.id}
+                className="group bg-white rounded-3xl p-8 shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
+              >
+
+                <div className="w-20 h-20 rounded-2xl bg-amber-100 text-amber-500 flex items-center justify-center group-hover:bg-amber-500 group-hover:text-white transition">
+
+                  <Icon size={40} />
+
+                </div>
+
+                <h3 className="mt-8 text-2xl font-bold text-gray-900">
+                  {item.title}
+                </h3>
+
+                <p className="mt-4 text-gray-600 leading-8">
+                  {item.description}
+                </p>
+
               </div>
-
-              {/* TITLE */}
-              <h3 className="mt-4 sm:mt-5 text-lg sm:text-xl font-bold">
-                {item.title}
-              </h3>
-
-              {/* DESCRIPTION */}
-              <p className="mt-2 sm:mt-3 text-sm sm:text-base text-gray-600">
-                {item.description}
-              </p>
-
-            </div>
-          ))}
+            );
+          })}
 
         </div>
 

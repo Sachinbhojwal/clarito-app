@@ -1,24 +1,27 @@
+import { Link } from "react-router-dom";
+
 const ServicesHero = () => {
   return (
     <section
-      className="relative h-[420px] flex items-center justify-center overflow-hidden"
+      className="relative h-[500px] md:h-[600px] flex items-center justify-center overflow-hidden"
       style={{
         backgroundImage: "url('/images/services-banner.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      {/* Dark Overlay */}
+      {/* Overlay */}
       <div className="absolute inset-0 bg-black/60"></div>
 
       {/* Decorative Blur */}
       <div className="absolute top-10 left-10 w-40 h-40 bg-amber-400/20 rounded-full blur-3xl"></div>
+
       <div className="absolute bottom-10 right-10 w-56 h-56 bg-orange-500/20 rounded-full blur-3xl"></div>
 
-      {/* Content */}
+      {/* Hero Content */}
       <div className="relative z-10 max-w-6xl mx-auto px-6 text-center text-white">
 
-        {/* Breadcrumb */}
+        {/* Badge */}
         <span className="inline-block bg-amber-500/90 px-5 py-2 rounded-full text-sm font-semibold tracking-wide">
           HOME SERVICES
         </span>
@@ -31,13 +34,55 @@ const ServicesHero = () => {
         </h1>
 
         {/* Description */}
-        <p className="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-gray-200">
-          Book trusted and verified professionals for Electrical,
-          Plumbing, Cleaning, Painting, Carpenter, AC Repair and
-          many more services with just a few clicks.
+        <p className="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-gray-200 leading-8">
+          Book trusted and verified professionals for Cleaning,
+          Electrical, Plumbing, Carpenter, AC Repair, Painting
+          and many more home services with just a few clicks.
         </p>
 
-        {/* Features */}
+        {/* CTA Buttons */}
+        <div className="mt-10 flex flex-wrap justify-center gap-5">
+
+          <Link
+            to="/booking"
+            className="
+              bg-amber-500
+              hover:bg-amber-600
+              text-white
+              px-8
+              py-4
+              rounded-xl
+              font-semibold
+              shadow-lg
+              transition-all
+              duration-300
+            "
+          >
+            Book Now
+          </Link>
+
+          <Link
+            to="/contact"
+            className="
+              border-2
+              border-white
+              hover:bg-white
+              hover:text-gray-900
+              text-white
+              px-8
+              py-4
+              rounded-xl
+              font-semibold
+              transition-all
+              duration-300
+            "
+          >
+            Contact Us
+          </Link>
+
+        </div>
+
+        {/* Feature Chips */}
         <div className="mt-10 flex flex-wrap justify-center gap-4">
 
           <div className="bg-white/10 backdrop-blur-md px-6 py-3 rounded-full border border-white/20">

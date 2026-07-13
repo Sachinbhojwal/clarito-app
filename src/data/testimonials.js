@@ -1,23 +1,38 @@
 export const testimonials = [
   {
     id: 1,
-    name: "Rahul Sharma",
-    service: "Electrician",
+    name: "Aman Sharma",
+    city: "Surat",
+    rating: 5,
+    image: `${import.meta.env.BASE_URL}images/testimonials/customer1.jpg`,
     review:
-      "Very professional service. The electrician arrived on time and fixed the issue quickly.",
+      "Excellent service! The electrician arrived on time and completed the work professionally. Highly recommended.",
   },
   {
     id: 2,
-    name: "Jayesh Patel",
-    service: "Cleaning",
+    name: "Priya Patel",
+    city: "Ahmedabad",
+    rating: 5,
+    image: `${import.meta.env.BASE_URL}images/testimonials/customer2.jpg`,
     review:
-      "Excellent cleaning service. My home looks spotless now.",
+      "Very satisfied with the cleaning service. The staff was polite, punctual and the quality exceeded my expectations.",
   },
   {
     id: 3,
-    name: "Abhinay Kumar",
-    service: "AC Repair",
+    name: "Rohit Kumar",
+    city: "Mumbai",
+    rating: 5,
+    image: `${import.meta.env.BASE_URL}images/testimonials/customer3.jpg`,
     review:
-      "Fast and reliable AC repair. Highly recommended.",
+      "Booking was simple and the plumber fixed the issue quickly. I'll definitely use Clarito again.",
+  },
+  {
+    id: 4,
+    name: "Neha Singh",
+    city: "Delhi",
+    rating: 5,
+    image: `${import.meta.env.BASE_URL}images/testimonials/customer4.jpg`,
+    review:
+      "The AC technician was knowledgeable and professional. Great experience from booking to completion.",
   },
 ];

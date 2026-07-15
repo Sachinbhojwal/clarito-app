@@ -1,32 +1,52 @@
-import { FaPlus, FaSearch } from "react-icons/fa";
+import { FaFilter, FaSearch } from "react-icons/fa";
 
-import { employeesData } from "../data/admin/employeesData";
-import EmployeesTable from "../components/admin/EmployeesTable";
+import ReviewsTable from "../components/admin/ReviewsTable";
+import { reviewsData } from "../data/admin/reviewsData";
 
-const Employees = () => {
+const Reviews = () => {
+  const totalReviews = reviewsData.length;
+
+  const approvedReviews = reviewsData.filter(
+    (review) => review.status === "Approved"
+  ).length;
+
+  const pendingReviews = reviewsData.filter(
+    (review) => review.status === "Pending"
+  ).length;
+
+  const averageRating = (
+    reviewsData.reduce(
+      (total, review) => total + review.rating,
+      0
+    ) / reviewsData.length
+  ).toFixed(1);
+
   return (
     <section className="space-y-8">
 
-      <div>
+      {/* Heading */}
 
+      <div>
         <h1 className="text-4xl font-bold text-gray-800">
-          Employees
+          Reviews Management
         </h1>
 
         <p className="mt-2 text-gray-500">
-          Manage all employees from one place.
+          Manage customer reviews, ratings and
+          feedback analytics.
         </p>
-
       </div>
+
+      {/* Analytics Cards */}
 
       <div
         className="
         grid
         gap-6
-        lg:grid-cols-3
+        sm:grid-cols-2
+        xl:grid-cols-4
         "
       >
-
         <div
           className="
           rounded-3xl
@@ -36,13 +56,12 @@ const Employees = () => {
           "
         >
           <p className="text-gray-500">
-            Total Employees
+            Total Reviews
           </p>
 
           <h2 className="mt-3 text-4xl font-bold text-gray-800">
-            {employeesData.length}
+            {totalReviews}
           </h2>
-
         </div>
 
         <div
@@ -54,18 +73,12 @@ const Employees = () => {
           "
         >
           <p className="text-gray-500">
-            Active Employees
+            Approved Reviews
           </p>
 
           <h2 className="mt-3 text-4xl font-bold text-green-600">
-            {
-              employeesData.filter(
-                (employee) =>
-                  employee.status === "Active"
-              ).length
-            }
+            {approvedReviews}
           </h2>
-
         </div>
 
         <div
@@ -77,21 +90,34 @@ const Employees = () => {
           "
         >
           <p className="text-gray-500">
-            Inactive Employees
+            Pending Reviews
           </p>
 
-          <h2 className="mt-3 text-4xl font-bold text-red-600">
-            {
-              employeesData.filter(
-                (employee) =>
-                  employee.status === "Inactive"
-              ).length
-            }
+          <h2 className="mt-3 text-4xl font-bold text-orange-600">
+            {pendingReviews}
           </h2>
+        </div>
 
+        <div
+          className="
+          rounded-3xl
+          bg-white
+          p-6
+          shadow-sm
+          "
+        >
+          <p className="text-gray-500">
+            Average Rating
+          </p>
+
+          <h2 className="mt-3 text-4xl font-bold text-yellow-500">
+            {averageRating}
+          </h2>
         </div>
 
       </div>
+
+      {/* Search & Filter */}
 
       <div
         className="
@@ -107,12 +133,11 @@ const Employees = () => {
         lg:justify-between
         "
       >
-
         <div className="relative w-full lg:max-w-md">
 
           <input
             type="text"
-            placeholder="Search employee..."
+            placeholder="Search review..."
             className="
             w-full
             rounded-2xl
@@ -156,18 +181,20 @@ const Employees = () => {
           hover:bg-amber-600
           "
         >
-          <FaPlus />
+          <FaFilter />
 
-          Add Employee
+          Filter Reviews
 
         </button>
 
       </div>
 
-      <EmployeesTable />
+      {/* Reviews Table */}
+
+      <ReviewsTable />
 
     </section>
   );
 };
 
-export default Employees;
+export default Reviews;

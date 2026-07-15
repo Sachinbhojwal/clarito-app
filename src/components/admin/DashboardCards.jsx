@@ -1,55 +1,90 @@
-import { ArrowUpRight } from "lucide-react";
-import { dashboardCards } from "../../data/dashboardCards";
+import { dashboardStats } from "../../data/admin/dashboardStats";
 
 const DashboardCards = () => {
   return (
-    <section className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-
-      {dashboardCards.map((card) => {
-        const Icon = card.icon;
+    <section
+      className="
+      grid
+      gap-6
+      sm:grid-cols-2
+      xl:grid-cols-3
+      "
+    >
+      {dashboardStats.map((item) => {
+        const Icon = item.icon;
 
         return (
           <div
-            key={card.id}
-            className="bg-white rounded-3xl p-6 shadow-md hover:shadow-xl transition-all duration-300"
+            key={item.id}
+            className="
+            rounded-3xl
+            bg-white
+            p-6
+            shadow-sm
+            transition-all
+            duration-300
+            hover:-translate-y-2
+            hover:shadow-xl
+            "
           >
             <div className="flex items-center justify-between">
 
               <div>
-                <p className="text-gray-500 text-sm">
-                  {card.title}
+                <p className="text-sm text-gray-500">
+                  {item.title}
                 </p>
 
                 <h2 className="mt-3 text-3xl font-bold text-gray-800">
-                  {card.value}
+                  {item.value}
                 </h2>
-
-                <div className="mt-4 flex items-center gap-2 text-green-600 font-semibold">
-
-                  <ArrowUpRight size={18} />
-
-                  <span>{card.change}</span>
-
-                  <span className="text-gray-400 font-normal">
-                    this month
-                  </span>
-
-                </div>
-
               </div>
 
               <div
-                className={`${card.color} w-16 h-16 rounded-2xl flex items-center justify-center text-white`}
+                className={`
+                flex
+                h-16
+                w-16
+                items-center
+                justify-center
+                rounded-2xl
+                ${item.bgColor}
+                `}
               >
-                <Icon size={30} />
+                <Icon
+                  className={`
+                  text-3xl
+                  ${item.color}
+                  `}
+                />
               </div>
+
+            </div>
+
+            <div className="mt-6 flex items-center justify-between">
+
+              <p className="text-sm text-gray-500">
+                Updated Today
+              </p>
+
+              <span
+                className="
+                rounded-full
+                bg-green-100
+                px-3
+                py-1
+                text-sm
+                font-semibold
+                text-green-600
+                "
+              >
+                +12%
+              </span>
 
             </div>
 
           </div>
         );
       })}
-
     </section>
   );
 };

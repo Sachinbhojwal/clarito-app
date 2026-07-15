@@ -1,133 +1,98 @@
 import { NavLink } from "react-router-dom";
-import { LogOut, X } from "lucide-react";
 
-import { adminMenu } from "../../data/adminMenu";
+import { FaSignOutAlt } from "react-icons/fa";
 
-const Sidebar = ({
-  sidebarOpen,
-  setSidebarOpen,
-}) => {
+import { sidebarData } from "../../data/admin/sidebarData";
+
+const Sidebar = () => {
   return (
     <aside
-      className={`
-        fixed
-        top-0
-        left-0
-        z-50
-        h-screen
-        w-72
-        bg-white
-        border-r
-        border-gray-200
-        shadow-xl
-        transition-transform
-        duration-300
-
-        ${sidebarOpen
-          ? "translate-x-0"
-          : "-translate-x-full"
-        }
-
-        lg:translate-x-0
-      `}
+      className="
+      fixed
+      top-0
+      left-0
+      z-50
+      hidden
+      h-screen
+      w-72
+      flex-col
+      overflow-y-auto
+      border-r
+      border-gray-200
+      bg-white
+      shadow-lg
+      lg:flex
+      "
     >
-      {/* Logo */}
+      <div className="border-b border-gray-200 px-8 py-8">
+        <h1 className="text-4xl font-bold text-amber-500">
+          CLARITO
+        </h1>
 
-      <div className="flex items-center justify-between h-20 px-6 border-b">
-
-        <div>
-
-          <h2 className="text-3xl font-extrabold text-amber-500">
-            Clarito
-          </h2>
-
-          <p className="text-sm text-gray-500">
-            Admin Panel
-          </p>
-
-        </div>
-
-        <button
-          onClick={() => setSidebarOpen(false)}
-          className="lg:hidden"
-        >
-          <X size={24} />
-        </button>
-
+        <p className="mt-2 text-sm text-gray-500">
+          Super Admin Dashboard
+        </p>
       </div>
 
-      {/* Menu */}
-
-      <nav className="flex-1 px-4 py-6 overflow-y-auto">
-
-        {adminMenu.map((item) => {
+      <nav className="flex-1 space-y-3 px-5 py-8">
+        {sidebarData.map((item) => {
           const Icon = item.icon;
 
           return (
             <NavLink
-              key={item.id}
+              key={item.slug}
               to={item.path}
-              onClick={() =>
-                setSidebarOpen(false)
-              }
+              end={item.path === "/admin"}
               className={({ isActive }) =>
                 `
                 flex
                 items-center
                 gap-4
+                rounded-2xl
                 px-5
                 py-4
-                rounded-xl
-                mb-2
-                font-medium
+                text-base
+                font-semibold
                 transition-all
                 duration-300
-
                 ${isActive
                   ? "bg-amber-500 text-white shadow-lg"
-                  : "text-gray-700 hover:bg-amber-100 hover:text-amber-600"
+                  : "text-gray-700 hover:bg-gray-100 hover:text-amber-500"
                 }
-              `
+                `
               }
             >
-              <Icon size={22} />
+              <Icon className="text-xl" />
 
               <span>{item.title}</span>
-
             </NavLink>
           );
         })}
-
       </nav>
 
-      {/* Footer */}
-
-      <div className="absolute bottom-0 left-0 w-full p-5 border-t bg-white">
-
+      <div className="border-t border-gray-200 p-5">
         <button
           className="
-            flex
-            items-center
-            justify-center
-            gap-3
-            w-full
-            py-3
-            rounded-xl
-            bg-red-500
-            hover:bg-red-600
-            text-white
-            font-semibold
-            transition
+          flex
+          w-full
+          items-center
+          justify-center
+          gap-3
+          rounded-2xl
+          bg-red-500
+          py-4
+          font-semibold
+          text-white
+          transition
+          duration-300
+          hover:bg-red-600
           "
         >
-          <LogOut size={20} />
+          <FaSignOutAlt className="text-lg" />
 
-          Logout
-
+          <span>Logout</span>
         </button>
-
       </div>
-
     </aside>
   );
 };

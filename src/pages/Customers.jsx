@@ -1,20 +1,20 @@
 import { FaPlus, FaSearch } from "react-icons/fa";
 
-import { employeesData } from "../data/admin/employeesData";
-import EmployeesTable from "../components/admin/EmployeesTable";
+import { customersData } from "../data/admin/customersData";
+import CustomersTable from "../components/admin/CustomersTable";
 
-const Employees = () => {
+const Customers = () => {
   return (
     <section className="space-y-8">
 
       <div>
 
         <h1 className="text-4xl font-bold text-gray-800">
-          Employees
+          Customers
         </h1>
 
         <p className="mt-2 text-gray-500">
-          Manage all employees from one place.
+          Manage all customers from one place.
         </p>
 
       </div>
@@ -36,11 +36,11 @@ const Employees = () => {
           "
         >
           <p className="text-gray-500">
-            Total Employees
+            Total Customers
           </p>
 
           <h2 className="mt-3 text-4xl font-bold text-gray-800">
-            {employeesData.length}
+            {customersData.length}
           </h2>
 
         </div>
@@ -54,14 +54,14 @@ const Employees = () => {
           "
         >
           <p className="text-gray-500">
-            Active Employees
+            Active Customers
           </p>
 
           <h2 className="mt-3 text-4xl font-bold text-green-600">
             {
-              employeesData.filter(
-                (employee) =>
-                  employee.status === "Active"
+              customersData.filter(
+                (customer) =>
+                  customer.status === "Active"
               ).length
             }
           </h2>
@@ -77,14 +77,14 @@ const Employees = () => {
           "
         >
           <p className="text-gray-500">
-            Inactive Employees
+            Inactive Customers
           </p>
 
           <h2 className="mt-3 text-4xl font-bold text-red-600">
             {
-              employeesData.filter(
-                (employee) =>
-                  employee.status === "Inactive"
+              customersData.filter(
+                (customer) =>
+                  customer.status === "Inactive"
               ).length
             }
           </h2>
@@ -112,7 +112,7 @@ const Employees = () => {
 
           <input
             type="text"
-            placeholder="Search employee..."
+            placeholder="Search customer..."
             className="
             w-full
             rounded-2xl
@@ -158,16 +158,16 @@ const Employees = () => {
         >
           <FaPlus />
 
-          Add Employee
+          Add Customer
 
         </button>
 
       </div>
 
-      <EmployeesTable />
+      <CustomersTable />
 
     </section>
   );
 };
 
-export default Employees;
+export default Customers;

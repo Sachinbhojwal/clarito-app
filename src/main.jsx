@@ -7,7 +7,9 @@ import "./index.css";
 import AuthProvider from "./context/AuthContext";
 import BookingProvider from "./context/BookingContext";
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+ReactDOM.createRoot(
+  document.getElementById("root")
+).render(
   <HashRouter>
     <AuthProvider>
       <BookingProvider>

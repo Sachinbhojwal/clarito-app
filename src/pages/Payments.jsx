@@ -1,20 +1,45 @@
-import { FaPlus, FaSearch } from "react-icons/fa";
+import {
+  FaDownload,
+  FaSearch,
+} from "react-icons/fa";
 
-import { employeesData } from "../data/admin/employeesData";
-import EmployeesTable from "../components/admin/EmployeesTable";
+import { paymentsData } from "../data/admin/paymentsData";
+import PaymentsTable from "../components/admin/PaymentsTable";
 
-const Employees = () => {
+const Payments = () => {
+  const totalRevenue = paymentsData
+    .filter(
+      (payment) =>
+        payment.paymentStatus === "Paid"
+    )
+    .reduce(
+      (total, payment) =>
+        total + payment.amount,
+      0
+    );
+
+  const pendingPayments = paymentsData.filter(
+    (payment) =>
+      payment.paymentStatus === "Pending"
+  ).length;
+
+  const refundedPayments = paymentsData.filter(
+    (payment) =>
+      payment.paymentStatus === "Refunded"
+  ).length;
+
   return (
     <section className="space-y-8">
 
       <div>
 
         <h1 className="text-4xl font-bold text-gray-800">
-          Employees
+          Payments
         </h1>
 
         <p className="mt-2 text-gray-500">
-          Manage all employees from one place.
+          Manage all payment transactions and
+          revenue analytics.
         </p>
 
       </div>
@@ -23,7 +48,8 @@ const Employees = () => {
         className="
         grid
         gap-6
-        lg:grid-cols-3
+        sm:grid-cols-2
+        xl:grid-cols-4
         "
       >
 
@@ -36,34 +62,11 @@ const Employees = () => {
           "
         >
           <p className="text-gray-500">
-            Total Employees
-          </p>
-
-          <h2 className="mt-3 text-4xl font-bold text-gray-800">
-            {employeesData.length}
-          </h2>
-
-        </div>
-
-        <div
-          className="
-          rounded-3xl
-          bg-white
-          p-6
-          shadow-sm
-          "
-        >
-          <p className="text-gray-500">
-            Active Employees
+            Total Revenue
           </p>
 
           <h2 className="mt-3 text-4xl font-bold text-green-600">
-            {
-              employeesData.filter(
-                (employee) =>
-                  employee.status === "Active"
-              ).length
-            }
+            ₹{totalRevenue.toLocaleString()}
           </h2>
 
         </div>
@@ -77,16 +80,47 @@ const Employees = () => {
           "
         >
           <p className="text-gray-500">
-            Inactive Employees
+            Total Transactions
           </p>
 
-          <h2 className="mt-3 text-4xl font-bold text-red-600">
-            {
-              employeesData.filter(
-                (employee) =>
-                  employee.status === "Inactive"
-              ).length
-            }
+          <h2 className="mt-3 text-4xl font-bold text-gray-800">
+            {paymentsData.length}
+          </h2>
+
+        </div>
+
+        <div
+          className="
+          rounded-3xl
+          bg-white
+          p-6
+          shadow-sm
+          "
+        >
+          <p className="text-gray-500">
+            Pending Payments
+          </p>
+
+          <h2 className="mt-3 text-4xl font-bold text-orange-600">
+            {pendingPayments}
+          </h2>
+
+        </div>
+
+        <div
+          className="
+          rounded-3xl
+          bg-white
+          p-6
+          shadow-sm
+          "
+        >
+          <p className="text-gray-500">
+            Refunded Payments
+          </p>
+
+          <h2 className="mt-3 text-4xl font-bold text-blue-600">
+            {refundedPayments}
           </h2>
 
         </div>
@@ -112,7 +146,7 @@ const Employees = () => {
 
           <input
             type="text"
-            placeholder="Search employee..."
+            placeholder="Search payment..."
             className="
             w-full
             rounded-2xl
@@ -156,18 +190,18 @@ const Employees = () => {
           hover:bg-amber-600
           "
         >
-          <FaPlus />
+          <FaDownload />
 
-          Add Employee
+          Download Report
 
         </button>
 
       </div>
 
-      <EmployeesTable />
+      <PaymentsTable />
 
     </section>
   );
 };
 
-export default Employees;
+export default Payments;

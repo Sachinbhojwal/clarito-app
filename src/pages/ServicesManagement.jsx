@@ -1,20 +1,20 @@
 import { FaPlus, FaSearch } from "react-icons/fa";
 
-import { employeesData } from "../data/admin/employeesData";
-import EmployeesTable from "../components/admin/EmployeesTable";
+import { servicesManagementData } from "../data/admin/servicesManagementData";
+import ServicesTable from "../components/admin/ServicesTable";
 
-const Employees = () => {
+const ServicesManagement = () => {
   return (
     <section className="space-y-8">
 
       <div>
 
         <h1 className="text-4xl font-bold text-gray-800">
-          Employees
+          Services Management
         </h1>
 
         <p className="mt-2 text-gray-500">
-          Manage all employees from one place.
+          Manage all services from one place.
         </p>
 
       </div>
@@ -23,7 +23,8 @@ const Employees = () => {
         className="
         grid
         gap-6
-        lg:grid-cols-3
+        sm:grid-cols-2
+        xl:grid-cols-4
         "
       >
 
@@ -36,11 +37,11 @@ const Employees = () => {
           "
         >
           <p className="text-gray-500">
-            Total Employees
+            Total Services
           </p>
 
           <h2 className="mt-3 text-4xl font-bold text-gray-800">
-            {employeesData.length}
+            {servicesManagementData.length}
           </h2>
 
         </div>
@@ -54,14 +55,14 @@ const Employees = () => {
           "
         >
           <p className="text-gray-500">
-            Active Employees
+            Active Services
           </p>
 
           <h2 className="mt-3 text-4xl font-bold text-green-600">
             {
-              employeesData.filter(
-                (employee) =>
-                  employee.status === "Active"
+              servicesManagementData.filter(
+                (service) =>
+                  service.status === "Active"
               ).length
             }
           </h2>
@@ -77,16 +78,38 @@ const Employees = () => {
           "
         >
           <p className="text-gray-500">
-            Inactive Employees
+            Inactive Services
           </p>
 
           <h2 className="mt-3 text-4xl font-bold text-red-600">
             {
-              employeesData.filter(
-                (employee) =>
-                  employee.status === "Inactive"
+              servicesManagementData.filter(
+                (service) =>
+                  service.status === "Inactive"
               ).length
             }
+          </h2>
+
+        </div>
+
+        <div
+          className="
+          rounded-3xl
+          bg-white
+          p-6
+          shadow-sm
+          "
+        >
+          <p className="text-gray-500">
+            Top Rated Service
+          </p>
+
+          <h2 className="mt-3 text-4xl font-bold text-yellow-500">
+            {Math.max(
+              ...servicesManagementData.map(
+                (service) => service.rating
+              )
+            )}
           </h2>
 
         </div>
@@ -112,7 +135,7 @@ const Employees = () => {
 
           <input
             type="text"
-            placeholder="Search employee..."
+            placeholder="Search service..."
             className="
             w-full
             rounded-2xl
@@ -158,16 +181,16 @@ const Employees = () => {
         >
           <FaPlus />
 
-          Add Employee
+          Add Service
 
         </button>
 
       </div>
 
-      <EmployeesTable />
+      <ServicesTable />
 
     </section>
   );
 };
 
-export default Employees;
+export default ServicesManagement;

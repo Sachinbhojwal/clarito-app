@@ -1,11 +1,11 @@
 import { useParams, useNavigate } from "react-router-dom";
 
-import Navbar from "../components/common/Navbar";
-import Footer from "../components/common/Footer";
+import Navbar from "../../components/common/Navbar";
+import Footer from "../../components/common/Footer";
 
 import { FaClock, FaStar, FaTag } from "react-icons/fa";
 
-import { services } from "../data/services";
+import { services } from "../../data/services";
 
 const ServiceDetails = () => {
   const { slug } = useParams();

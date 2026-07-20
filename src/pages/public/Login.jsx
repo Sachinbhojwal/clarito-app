@@ -1,8 +1,8 @@
-import Navbar from "../components/common/Navbar";
-import Footer from "../components/common/Footer";
+import Navbar from "../../components/common/Navbar";
+import Footer from "../../components/common/Footer";
 
-import LoginForm from "../components/auth/LoginForm";
-import LoginSlider from "../components/auth/LoginSlider";
+import LoginForm from "../../components/auth/LoginForm";
+import LoginSlider from "../../components/auth/LoginSlider";
 
 const Login = () => {
   return (

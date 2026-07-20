@@ -1,9 +1,9 @@
-import DashboardCards from "../components/admin/DashboardCards";
-import RevenueChart from "../components/admin/RevenueChart";
-import RecentBookings from "../components/admin/RecentBookings";
-import RecentCustomers from "../components/admin/RecentCustomers";
-import TopServices from "../components/admin/TopServices";
-import LatestReviews from "../components/admin/LatestReviews";
+import DashboardCards from "../../components/admin/DashboardCards";
+import RevenueChart from "../../components/admin/RevenueChart";
+import RecentBookings from "../../components/admin/RecentBookings";
+import RecentCustomers from "../../components/admin/RecentCustomers";
+import TopServices from "../../components/admin/TopServices";
+import LatestReviews from "../../components/admin/LatestReviews";
 
 const AdminDashboard = () => {
   return (

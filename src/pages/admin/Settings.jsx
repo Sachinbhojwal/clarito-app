@@ -3,8 +3,8 @@ import { MdSettings } from "react-icons/md";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { RiServerFill } from "react-icons/ri";
 
-import SettingsCards from "../components/admin/SettingsCards";
-import { settingsData } from "../data/admin/settingsData";
+import SettingsCards from "../../components/admin/SettingsCards";
+import { settingsData } from "../../data/admin/settingsData";
 
 const Settings = () => {
   const totalSettings = settingsData.length;

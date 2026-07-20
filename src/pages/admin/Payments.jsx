@@ -1,20 +1,45 @@
-import { FaPlus, FaSearch } from "react-icons/fa";
+import {
+  FaDownload,
+  FaSearch,
+} from "react-icons/fa";
 
-import { customersData } from "../data/admin/customersData";
-import CustomersTable from "../components/admin/CustomersTable";
+import { paymentsData } from "../../data/admin/paymentsData";
+import PaymentsTable from "../../components/admin/PaymentsTable";
 
-const Customers = () => {
+const Payments = () => {
+  const totalRevenue = paymentsData
+    .filter(
+      (payment) =>
+        payment.paymentStatus === "Paid"
+    )
+    .reduce(
+      (total, payment) =>
+        total + payment.amount,
+      0
+    );
+
+  const pendingPayments = paymentsData.filter(
+    (payment) =>
+      payment.paymentStatus === "Pending"
+  ).length;
+
+  const refundedPayments = paymentsData.filter(
+    (payment) =>
+      payment.paymentStatus === "Refunded"
+  ).length;
+
   return (
     <section className="space-y-8">
 
       <div>
 
         <h1 className="text-4xl font-bold text-gray-800">
-          Customers
+          Payments
         </h1>
 
         <p className="mt-2 text-gray-500">
-          Manage all customers from one place.
+          Manage all payment transactions and
+          revenue analytics.
         </p>
 
       </div>
@@ -23,7 +48,8 @@ const Customers = () => {
         className="
         grid
         gap-6
-        lg:grid-cols-3
+        sm:grid-cols-2
+        xl:grid-cols-4
         "
       >
 
@@ -36,34 +62,11 @@ const Customers = () => {
           "
         >
           <p className="text-gray-500">
-            Total Customers
-          </p>
-
-          <h2 className="mt-3 text-4xl font-bold text-gray-800">
-            {customersData.length}
-          </h2>
-
-        </div>
-
-        <div
-          className="
-          rounded-3xl
-          bg-white
-          p-6
-          shadow-sm
-          "
-        >
-          <p className="text-gray-500">
-            Active Customers
+            Total Revenue
           </p>
 
           <h2 className="mt-3 text-4xl font-bold text-green-600">
-            {
-              customersData.filter(
-                (customer) =>
-                  customer.status === "Active"
-              ).length
-            }
+            ₹{totalRevenue.toLocaleString()}
           </h2>
 
         </div>
@@ -77,16 +80,47 @@ const Customers = () => {
           "
         >
           <p className="text-gray-500">
-            Inactive Customers
+            Total Transactions
           </p>
 
-          <h2 className="mt-3 text-4xl font-bold text-red-600">
-            {
-              customersData.filter(
-                (customer) =>
-                  customer.status === "Inactive"
-              ).length
-            }
+          <h2 className="mt-3 text-4xl font-bold text-gray-800">
+            {paymentsData.length}
+          </h2>
+
+        </div>
+
+        <div
+          className="
+          rounded-3xl
+          bg-white
+          p-6
+          shadow-sm
+          "
+        >
+          <p className="text-gray-500">
+            Pending Payments
+          </p>
+
+          <h2 className="mt-3 text-4xl font-bold text-orange-600">
+            {pendingPayments}
+          </h2>
+
+        </div>
+
+        <div
+          className="
+          rounded-3xl
+          bg-white
+          p-6
+          shadow-sm
+          "
+        >
+          <p className="text-gray-500">
+            Refunded Payments
+          </p>
+
+          <h2 className="mt-3 text-4xl font-bold text-blue-600">
+            {refundedPayments}
           </h2>
 
         </div>
@@ -112,7 +146,7 @@ const Customers = () => {
 
           <input
             type="text"
-            placeholder="Search customer..."
+            placeholder="Search payment..."
             className="
             w-full
             rounded-2xl
@@ -156,18 +190,18 @@ const Customers = () => {
           hover:bg-amber-600
           "
         >
-          <FaPlus />
+          <FaDownload />
 
-          Add Customer
+          Download Report
 
         </button>
 
       </div>
 
-      <CustomersTable />
+      <PaymentsTable />
 
     </section>
   );
 };
 
-export default Customers;
+export default Payments;

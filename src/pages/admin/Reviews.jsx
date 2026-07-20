@@ -1,23 +1,43 @@
-import { FaPlus, FaSearch } from "react-icons/fa";
+import { FaFilter, FaSearch } from "react-icons/fa";
 
-import { servicesManagementData } from "../data/admin/servicesManagementData";
-import ServicesTable from "../components/admin/ServicesTable";
+import ReviewsTable from "../../components/admin/ReviewsTable";
+import { reviewsData } from "../../data/admin/reviewsData";
 
-const ServicesManagement = () => {
+const Reviews = () => {
+  const totalReviews = reviewsData.length;
+
+  const approvedReviews = reviewsData.filter(
+    (review) => review.status === "Approved"
+  ).length;
+
+  const pendingReviews = reviewsData.filter(
+    (review) => review.status === "Pending"
+  ).length;
+
+  const averageRating = (
+    reviewsData.reduce(
+      (total, review) => total + review.rating,
+      0
+    ) / reviewsData.length
+  ).toFixed(1);
+
   return (
     <section className="space-y-8">
 
-      <div>
+      {/* Heading */}
 
+      <div>
         <h1 className="text-4xl font-bold text-gray-800">
-          Services Management
+          Reviews Management
         </h1>
 
         <p className="mt-2 text-gray-500">
-          Manage all services from one place.
+          Manage customer reviews, ratings and
+          feedback analytics.
         </p>
-
       </div>
+
+      {/* Analytics Cards */}
 
       <div
         className="
@@ -27,7 +47,6 @@ const ServicesManagement = () => {
         xl:grid-cols-4
         "
       >
-
         <div
           className="
           rounded-3xl
@@ -37,13 +56,12 @@ const ServicesManagement = () => {
           "
         >
           <p className="text-gray-500">
-            Total Services
+            Total Reviews
           </p>
 
           <h2 className="mt-3 text-4xl font-bold text-gray-800">
-            {servicesManagementData.length}
+            {totalReviews}
           </h2>
-
         </div>
 
         <div
@@ -55,18 +73,12 @@ const ServicesManagement = () => {
           "
         >
           <p className="text-gray-500">
-            Active Services
+            Approved Reviews
           </p>
 
           <h2 className="mt-3 text-4xl font-bold text-green-600">
-            {
-              servicesManagementData.filter(
-                (service) =>
-                  service.status === "Active"
-              ).length
-            }
+            {approvedReviews}
           </h2>
-
         </div>
 
         <div
@@ -78,18 +90,12 @@ const ServicesManagement = () => {
           "
         >
           <p className="text-gray-500">
-            Inactive Services
+            Pending Reviews
           </p>
 
-          <h2 className="mt-3 text-4xl font-bold text-red-600">
-            {
-              servicesManagementData.filter(
-                (service) =>
-                  service.status === "Inactive"
-              ).length
-            }
+          <h2 className="mt-3 text-4xl font-bold text-orange-600">
+            {pendingReviews}
           </h2>
-
         </div>
 
         <div
@@ -101,20 +107,17 @@ const ServicesManagement = () => {
           "
         >
           <p className="text-gray-500">
-            Top Rated Service
+            Average Rating
           </p>
 
           <h2 className="mt-3 text-4xl font-bold text-yellow-500">
-            {Math.max(
-              ...servicesManagementData.map(
-                (service) => service.rating
-              )
-            )}
+            {averageRating}
           </h2>
-
         </div>
 
       </div>
+
+      {/* Search & Filter */}
 
       <div
         className="
@@ -130,12 +133,11 @@ const ServicesManagement = () => {
         lg:justify-between
         "
       >
-
         <div className="relative w-full lg:max-w-md">
 
           <input
             type="text"
-            placeholder="Search service..."
+            placeholder="Search review..."
             className="
             w-full
             rounded-2xl
@@ -179,18 +181,20 @@ const ServicesManagement = () => {
           hover:bg-amber-600
           "
         >
-          <FaPlus />
+          <FaFilter />
 
-          Add Service
+          Filter Reviews
 
         </button>
 
       </div>
 
-      <ServicesTable />
+      {/* Reviews Table */}
+
+      <ReviewsTable />
 
     </section>
   );
 };
 
-export default ServicesManagement;
+export default Reviews;

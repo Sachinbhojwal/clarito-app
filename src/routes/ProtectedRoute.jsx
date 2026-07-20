@@ -1,20 +1,44 @@
-import { Navigate } from "react-router-dom";
+import {
+  Navigate,
+  useLocation,
+} from "react-router-dom";
+
 import useAuth from "../hooks/useAuth";
 
-const ProtectedRoute = ({ children, allowedRole }) => {
+const ProtectedRoute = ({
+  children,
+  allowedRole,
+}) => {
   const { user } = useAuth();
 
-  // User login nahi hai
+  const location = useLocation();
+
+  // Login nahi hai
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return (
+      <Navigate
+        to="/login"
+        state={{
+          from: location,
+        }}
+        replace
+      />
+    );
   }
 
-  // Agar role diya gaya hai aur match nahi karta
-  if (allowedRole && user.role !== allowedRole) {
-    return <Navigate to="/" replace />;
+  // Role match nahi hua
+  if (
+    allowedRole &&
+    user.role !== allowedRole
+  ) {
+    return (
+      <Navigate
+        to="/"
+        replace
+      />
+    );
   }
 
-  // Sab sahi hai
   return children;
 };
 

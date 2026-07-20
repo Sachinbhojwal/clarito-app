@@ -4,138 +4,309 @@ import {
   useState,
 } from "react";
 
+
 export const AuthContext =
   createContext();
+
+
 
 const AuthProvider = ({
   children,
 }) => {
-  // ==========================
-  // States
-  // ==========================
+
 
   const [user, setUser] =
     useState(null);
 
+
   const [token, setToken] =
     useState(null);
+
 
   const [role, setRole] =
     useState("");
 
+
   const [loading, setLoading] =
     useState(true);
 
+
+
+
+
   // ==========================
-  // Load Data From LocalStorage
+  // Load User From LocalStorage
   // ==========================
+
 
   useEffect(() => {
-    const savedToken =
-      localStorage.getItem("token");
 
-    const savedRole =
-      localStorage.getItem("role");
 
-    const savedUser =
-      localStorage.getItem("user");
+    try {
 
-    if (
-      savedToken &&
-      savedRole &&
-      savedUser
-    ) {
-      setToken(savedToken);
 
-      setRole(savedRole);
+      const savedToken =
+        localStorage.getItem(
+          "token"
+        );
 
-      setUser(
-        JSON.parse(savedUser)
-      );
+
+      const savedRole =
+        localStorage.getItem(
+          "role"
+        );
+
+
+      const savedUser =
+        localStorage.getItem(
+          "user"
+        );
+
+
+
+
+      if (savedToken) {
+
+        setToken(savedToken);
+
+      }
+
+
+
+
+      if (savedRole) {
+
+        setRole(savedRole);
+
+      }
+
+
+
+
+      if (
+        savedUser &&
+        savedUser !== "undefined" &&
+        savedUser !== "null"
+      ) {
+
+
+        setUser(
+          JSON.parse(savedUser)
+        );
+
+
+      }
+
+
+
     }
 
-    setLoading(false);
+    catch (error) {
+
+
+      console.error(
+        "Auth Load Error:",
+        error
+      );
+
+
+      localStorage.removeItem(
+        "user"
+      );
+
+
+    }
+
+
+    finally {
+
+
+      setLoading(false);
+
+
+    }
+
+
+
   }, []);
+
+
+
+
+
+
+
 
   // ==========================
   // Login Function
   // ==========================
 
-  const login = ({
-    token,
-    role,
-    user,
-  }) => {
+
+  const login = (userData) => {
+
+
+
+    if (!userData) {
+
+      return;
+
+    }
+
+
+
+
+    const demoToken =
+      "demo-token";
+
+
+
+
+
     localStorage.setItem(
       "token",
-      token
+      demoToken
     );
+
+
+
+
 
     localStorage.setItem(
       "role",
-      role
+      userData.role
     );
+
+
+
+
 
     localStorage.setItem(
       "user",
-      JSON.stringify(user)
+      JSON.stringify(userData)
     );
 
-    setToken(token);
 
-    setRole(role);
 
-    setUser(user);
+
+
+
+    setToken(
+      demoToken
+    );
+
+
+
+    setRole(
+      userData.role
+    );
+
+
+
+    setUser(
+      userData
+    );
+
+
+
   };
+
+
+
+
+
+
+
+
 
   // ==========================
   // Logout Function
   // ==========================
 
+
   const logout = () => {
+
+
+
     localStorage.removeItem(
       "token"
     );
+
 
     localStorage.removeItem(
       "role"
     );
 
+
     localStorage.removeItem(
       "user"
     );
 
+
+
     setToken(null);
+
 
     setRole("");
 
+
+
     setUser(null);
+
+
+
   };
 
-  // ==========================
-  // Context Values
-  // ==========================
+
+
+
+
+
+
 
   const value = {
+
+
     user,
+
+
     token,
+
+
     role,
+
+
     loading,
+
+
     login,
+
+
     logout,
+
+
   };
 
-  // ==========================
-  // Provider
-  // ==========================
+
+
+
+
+
+
 
   return (
+
     <AuthContext.Provider
       value={value}
     >
+
       {children}
+
     </AuthContext.Provider>
+
   );
+
 };
+
+
 
 export default AuthProvider;

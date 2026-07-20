@@ -1,45 +1,20 @@
-import {
-  FaDownload,
-  FaSearch,
-} from "react-icons/fa";
+import { FaPlus, FaSearch } from "react-icons/fa";
 
-import { paymentsData } from "../data/admin/paymentsData";
-import PaymentsTable from "../components/admin/PaymentsTable";
+import { servicesManagementData } from "../../data/admin/servicesManagementData";
+import ServicesTable from "../../components/admin/ServicesTable";
 
-const Payments = () => {
-  const totalRevenue = paymentsData
-    .filter(
-      (payment) =>
-        payment.paymentStatus === "Paid"
-    )
-    .reduce(
-      (total, payment) =>
-        total + payment.amount,
-      0
-    );
-
-  const pendingPayments = paymentsData.filter(
-    (payment) =>
-      payment.paymentStatus === "Pending"
-  ).length;
-
-  const refundedPayments = paymentsData.filter(
-    (payment) =>
-      payment.paymentStatus === "Refunded"
-  ).length;
-
+const ServicesManagement = () => {
   return (
     <section className="space-y-8">
 
       <div>
 
         <h1 className="text-4xl font-bold text-gray-800">
-          Payments
+          Services Management
         </h1>
 
         <p className="mt-2 text-gray-500">
-          Manage all payment transactions and
-          revenue analytics.
+          Manage all services from one place.
         </p>
 
       </div>
@@ -62,29 +37,11 @@ const Payments = () => {
           "
         >
           <p className="text-gray-500">
-            Total Revenue
-          </p>
-
-          <h2 className="mt-3 text-4xl font-bold text-green-600">
-            ₹{totalRevenue.toLocaleString()}
-          </h2>
-
-        </div>
-
-        <div
-          className="
-          rounded-3xl
-          bg-white
-          p-6
-          shadow-sm
-          "
-        >
-          <p className="text-gray-500">
-            Total Transactions
+            Total Services
           </p>
 
           <h2 className="mt-3 text-4xl font-bold text-gray-800">
-            {paymentsData.length}
+            {servicesManagementData.length}
           </h2>
 
         </div>
@@ -98,11 +55,16 @@ const Payments = () => {
           "
         >
           <p className="text-gray-500">
-            Pending Payments
+            Active Services
           </p>
 
-          <h2 className="mt-3 text-4xl font-bold text-orange-600">
-            {pendingPayments}
+          <h2 className="mt-3 text-4xl font-bold text-green-600">
+            {
+              servicesManagementData.filter(
+                (service) =>
+                  service.status === "Active"
+              ).length
+            }
           </h2>
 
         </div>
@@ -116,11 +78,38 @@ const Payments = () => {
           "
         >
           <p className="text-gray-500">
-            Refunded Payments
+            Inactive Services
           </p>
 
-          <h2 className="mt-3 text-4xl font-bold text-blue-600">
-            {refundedPayments}
+          <h2 className="mt-3 text-4xl font-bold text-red-600">
+            {
+              servicesManagementData.filter(
+                (service) =>
+                  service.status === "Inactive"
+              ).length
+            }
+          </h2>
+
+        </div>
+
+        <div
+          className="
+          rounded-3xl
+          bg-white
+          p-6
+          shadow-sm
+          "
+        >
+          <p className="text-gray-500">
+            Top Rated Service
+          </p>
+
+          <h2 className="mt-3 text-4xl font-bold text-yellow-500">
+            {Math.max(
+              ...servicesManagementData.map(
+                (service) => service.rating
+              )
+            )}
           </h2>
 
         </div>
@@ -146,7 +135,7 @@ const Payments = () => {
 
           <input
             type="text"
-            placeholder="Search payment..."
+            placeholder="Search service..."
             className="
             w-full
             rounded-2xl
@@ -190,18 +179,18 @@ const Payments = () => {
           hover:bg-amber-600
           "
         >
-          <FaDownload />
+          <FaPlus />
 
-          Download Report
+          Add Service
 
         </button>
 
       </div>
 
-      <PaymentsTable />
+      <ServicesTable />
 
     </section>
   );
 };
 
-export default Payments;
+export default ServicesManagement;

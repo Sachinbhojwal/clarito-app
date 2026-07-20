@@ -9,7 +9,7 @@ export const adminProfile = {
 
   phone: "+91 9876543210",
 
-  image: `${import.meta.env.BASE_URL}images/admin.jpg`,
+  image: `${import.meta.env.BASE_URL}images/admin.png`,
 
   status: "Active",
 

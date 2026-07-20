@@ -1,7 +1,7 @@
-import Navbar from "../components/common/Navbar";
-import Footer from "../components/common/Footer";
-import useBooking from "../hooks/useBooking";
-import useAuth from "../hooks/useAuth";
+import Navbar from "../../components/common/Navbar";
+import Footer from "../../components/common/Footer";
+import useBooking from "../../hooks/useBooking";
+import useAuth from "../../hooks/useAuth";
 
 const CustomerDashboard = () => {
   const { bookings, cancelBooking } = useBooking();

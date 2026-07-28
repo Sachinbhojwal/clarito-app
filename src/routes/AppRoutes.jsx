@@ -14,6 +14,8 @@ import AdminLogin from "../pages/public/AdminLogin";
 import Bookings from "../pages/booking/Bookings";
 import Services from "../pages/booking/Services";
 import ServiceDetails from "../pages/booking/ServiceDetails";
+import BookingSuccess from "../pages/booking/BookingSuccess";
+import MyBookings from "../pages/booking/MyBookings";
 
 /* Customer Pages */
 
@@ -47,6 +49,7 @@ import AdminProtectedRoute from "./AdminProtectedRoute";
 const AppRoutes = () => {
   return (
     <Routes>
+
       {/*================================*/}
       {/* Public Routes */}
       {/*================================*/}
@@ -85,6 +88,28 @@ const AppRoutes = () => {
       <Route
         path="/booking"
         element={<Bookings />}
+      />
+
+      <Route
+        path="/booking-success"
+        element={
+          <ProtectedRoute
+            allowedRole="customer"
+          >
+            <BookingSuccess />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/my-bookings"
+        element={
+          <ProtectedRoute
+            allowedRole="customer"
+          >
+            <MyBookings />
+          </ProtectedRoute>
+        }
       />
 
       <Route
@@ -196,6 +221,7 @@ const AppRoutes = () => {
           element={<Settings />}
         />
       </Route>
+
     </Routes>
   );
 };

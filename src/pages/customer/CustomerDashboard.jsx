@@ -1,143 +1,262 @@
-import Navbar from "../../components/common/Navbar";
-import Footer from "../../components/common/Footer";
-import useBooking from "../../hooks/useBooking";
-import useAuth from "../../hooks/useAuth";
+import { Link } from "react-router-dom";
+
+import {
+  FaClipboardList,
+  FaClock,
+  FaCheckCircle,
+  FaTimesCircle,
+  FaSearch,
+  FaTools,
+} from "react-icons/fa";
 
 const CustomerDashboard = () => {
-  const { bookings, cancelBooking } = useBooking();
-  const { user } = useAuth();
+  const user =
+    JSON.parse(
+      localStorage.getItem("user")
+    ) || {};
 
-  const myBookings = bookings.filter(
-    (booking) => booking.customerName === user?.name
-  );
+  const bookings =
+    JSON.parse(
+      localStorage.getItem("myBookings")
+    ) || [];
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "Pending":
-        return "bg-yellow-100 text-yellow-700";
-      case "Accepted":
-        return "bg-green-100 text-green-700";
-      case "Completed":
-        return "bg-blue-100 text-blue-700";
-      default:
-        return "bg-gray-100 text-gray-700";
-    }
-  };
+  const totalBookings =
+    bookings.length;
+
+  const pending =
+    bookings.filter(
+      (item) =>
+        item.status === "Pending"
+    ).length;
+
+  const completed =
+    bookings.filter(
+      (item) =>
+        item.status === "Completed"
+    ).length;
+
+  const cancelled =
+    bookings.filter(
+      (item) =>
+        item.status === "Cancelled"
+    ).length;
 
   return (
-    <>
-      <Navbar />
+    <section className="min-h-screen bg-gray-100 py-10 px-4">
+      <div className="max-w-7xl mx-auto">
 
-      <section className="min-h-screen bg-gray-100 py-10">
-        <div className="max-w-7xl mx-auto px-6">
+        {/* Welcome */}
 
-          {/* Welcome */}
-          <div className="bg-white rounded-3xl shadow-lg p-8">
-            <h1 className="text-4xl font-bold">
-              Welcome, {user?.name}
-            </h1>
+        <div className="bg-white rounded-3xl p-8 shadow-lg">
+          <h1 className="text-4xl font-bold">
+            Welcome Back, {user.name} 👋
+          </h1>
+
+          <p className="mt-3 text-gray-500">
+            Manage all your bookings
+            from one place.
+          </p>
+        </div>
+
+        {/* Stats */}
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
+
+          <div className="bg-white rounded-3xl p-6 shadow">
+            <FaClipboardList
+              className="text-amber-500"
+              size={35}
+            />
+
+            <h2 className="text-4xl font-bold mt-4">
+              {totalBookings}
+            </h2>
 
             <p className="text-gray-500 mt-2">
-              Track all your bookings here.
+              Total Bookings
             </p>
           </div>
 
-          {/* Bookings */}
-          <div className="mt-10">
+          <div className="bg-white rounded-3xl p-6 shadow">
+            <FaClock
+              className="text-blue-500"
+              size={35}
+            />
 
-            <h2 className="text-3xl font-bold mb-6">
-              My Bookings
+            <h2 className="text-4xl font-bold mt-4">
+              {pending}
             </h2>
 
-            {myBookings.length === 0 ? (
-              <div className="bg-white rounded-3xl shadow p-10 text-center">
-                <h3 className="text-2xl font-semibold">
-                  No Booking Found
-                </h3>
+            <p className="text-gray-500 mt-2">
+              Pending
+            </p>
+          </div>
 
-                <p className="text-gray-500 mt-3">
-                  Book your first service.
-                </p>
-              </div>
-            ) : (
-              <div className="grid lg:grid-cols-2 gap-6">
+          <div className="bg-white rounded-3xl p-6 shadow">
+            <FaCheckCircle
+              className="text-green-500"
+              size={35}
+            />
 
-                {myBookings.map((booking) => (
+            <h2 className="text-4xl font-bold mt-4">
+              {completed}
+            </h2>
 
-                  <div
-                    key={booking.id}
-                    className="bg-white rounded-3xl shadow-lg p-6"
-                  >
+            <p className="text-gray-500 mt-2">
+              Completed
+            </p>
+          </div>
 
-                    <div className="flex justify-between items-center">
+          <div className="bg-white rounded-3xl p-6 shadow">
+            <FaTimesCircle
+              className="text-red-500"
+              size={35}
+            />
 
-                      <h3 className="text-2xl font-bold">
-                        {booking.service}
-                      </h3>
+            <h2 className="text-4xl font-bold mt-4">
+              {cancelled}
+            </h2>
 
-                      <span
-                        className={`px-4 py-1 rounded-full text-sm font-semibold ${getStatusColor(
-                          booking.status
-                        )}`}
-                      >
-                        {booking.status}
-                      </span>
-
-                    </div>
-
-                    <div className="space-y-2 mt-5">
-
-                      <p>
-                        <strong>Date:</strong> {booking.date}
-                      </p>
-
-                      <p>
-                        <strong>Time:</strong> {booking.time}
-                      </p>
-
-                      <p>
-                        <strong>Address:</strong> {booking.address}
-                      </p>
-
-                      <p>
-                        <strong>Phone:</strong> {booking.phone}
-                      </p>
-
-                      {booking.providerName && (
-                        <p>
-                          <strong>Provider:</strong>{" "}
-                          {booking.providerName}
-                        </p>
-                      )}
-
-                    </div>
-
-                    {booking.status === "Pending" && (
-                      <button
-                        onClick={() =>
-                          cancelBooking(booking.id)
-                        }
-                        className="mt-6 w-full bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-semibold"
-                      >
-                        Cancel Booking
-                      </button>
-                    )}
-
-                  </div>
-
-                ))}
-
-              </div>
-            )}
-
+            <p className="text-gray-500 mt-2">
+              Cancelled
+            </p>
           </div>
 
         </div>
-      </section>
 
-      <Footer />
-    </>
+        {/* Quick Actions */}
+
+        <div className="mt-10">
+          <h2 className="text-3xl font-bold">
+            Quick Actions
+          </h2>
+
+          <div className="grid md:grid-cols-3 gap-6 mt-6">
+
+            <Link
+              to="/my-bookings"
+              className="
+                bg-white
+                rounded-3xl
+                p-6
+                shadow
+                hover:shadow-lg
+              "
+            >
+              <FaClipboardList
+                size={35}
+                className="text-amber-500"
+              />
+
+              <h3 className="mt-4 text-xl font-bold">
+                My Bookings
+              </h3>
+            </Link>
+
+            <Link
+              to="/track-booking"
+              className="
+                bg-white
+                rounded-3xl
+                p-6
+                shadow
+                hover:shadow-lg
+              "
+            >
+              <FaSearch
+                size={35}
+                className="text-blue-500"
+              />
+
+              <h3 className="mt-4 text-xl font-bold">
+                Track Booking
+              </h3>
+            </Link>
+
+            <Link
+              to="/services"
+              className="
+                bg-white
+                rounded-3xl
+                p-6
+                shadow
+                hover:shadow-lg
+              "
+            >
+              <FaTools
+                size={35}
+                className="text-green-500"
+              />
+
+              <h3 className="mt-4 text-xl font-bold">
+                Browse Services
+              </h3>
+            </Link>
+
+          </div>
+        </div>
+
+        {/* Recent Bookings */}
+
+        <div className="mt-10 bg-white rounded-3xl shadow p-8">
+
+          <h2 className="text-3xl font-bold">
+            Recent Bookings
+          </h2>
+
+          {bookings.length === 0 ? (
+            <p className="mt-6 text-gray-500">
+              No bookings available.
+            </p>
+          ) : (
+            <div className="space-y-5 mt-8">
+
+              {bookings
+                .slice(-5)
+                .reverse()
+                .map((booking) => (
+                  <div
+                    key={booking.bookingId}
+                    className="
+                      border
+                      rounded-2xl
+                      p-5
+                      flex
+                      flex-col
+                      md:flex-row
+                      md:justify-between
+                    "
+                  >
+                    <div>
+                      <h3 className="font-bold text-xl">
+                        {booking.service}
+                      </h3>
+
+                      <p className="text-gray-500 mt-2">
+                        ID:
+                        {" "}
+                        {booking.bookingId}
+                      </p>
+                    </div>
+
+                    <div className="mt-4 md:mt-0">
+                      <p>{booking.date}</p>
+
+                      <p className="font-semibold text-green-600">
+                        {booking.status}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+
+            </div>
+          )}
+
+        </div>
+
+      </div>
+    </section>
   );
 };
 
-export default CustomerDashboard; 
+export default CustomerDashboard;

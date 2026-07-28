@@ -1,322 +1,247 @@
-import Navbar from "../../components/common/Navbar";
-import Footer from "../../components/common/Footer";
-
-import EmployeeCard from "../../components/employee/EmployeeCard";
-
+import { useState } from "react";
 import {
+  FaSearch,
   FaCheckCircle,
   FaClock,
-  FaTools,
-  FaTruckMoving,
 } from "react-icons/fa";
 
 const TrackBooking = () => {
+  const [bookingId, setBookingId] =
+    useState("");
+
+  const [booking, setBooking] =
+    useState(null);
+
+  const handleTrack = () => {
+    const bookings =
+      JSON.parse(
+        localStorage.getItem(
+          "myBookings"
+        )
+      ) || [];
+
+    const foundBooking =
+      bookings.find(
+        (item) =>
+          item.bookingId ===
+          bookingId.trim()
+      );
+
+    if (!foundBooking) {
+      alert("Booking Not Found");
+      setBooking(null);
+      return;
+    }
+
+    setBooking(foundBooking);
+  };
+
   return (
-    <>
-      <Navbar />
+    <section className="min-h-screen bg-gray-100 py-16 px-4">
 
-      <main className="min-h-screen bg-gray-50">
+      <div className="max-w-4xl mx-auto">
 
-        {/* Heading */}
+        <div className="bg-white rounded-3xl shadow-lg p-8">
 
-        <section className="px-5 py-10">
+          <h1 className="text-4xl font-bold text-center">
+            Track Booking
+          </h1>
 
-          <div className="mx-auto max-w-7xl">
+          <p className="text-gray-500 text-center mt-3">
+            Enter your Booking ID to
+            check the status.
+          </p>
 
-            <h1
+          {/* Search */}
+
+          <div className="mt-10 flex gap-4">
+
+            <input
+              type="text"
+              placeholder="Enter Booking ID"
+              value={bookingId}
+              onChange={(e) =>
+                setBookingId(
+                  e.target.value
+                )
+              }
               className="
-              text-4xl
-              font-bold
-              text-gray-800
+              flex-1
+              border
+              rounded-xl
+              px-4
+              py-4
+              outline-none
+              focus:ring-2
+              focus:ring-amber-500
               "
-            >
-              Track Your Booking
-            </h1>
+            />
 
-            <p
+            <button
+              onClick={handleTrack}
               className="
-              mt-3
-              text-gray-500
-              "
-            >
-              Stay updated with your service
-              professional and booking status.
-            </p>
-
-          </div>
-
-        </section>
-
-        {/* Booking Details */}
-
-        <section className="px-5">
-
-          <div
-            className="
-            mx-auto
-            max-w-7xl
-            rounded-3xl
-            bg-white
-            p-6
-            shadow-sm
-            "
-          >
-            <div
-              className="
+              bg-amber-500
+              hover:bg-amber-600
+              text-white
+              px-8
+              rounded-xl
               flex
-              flex-col
-              gap-4
-              lg:flex-row
-              lg:justify-between
+              items-center
+              gap-2
               "
             >
-              <div>
+              <FaSearch />
+              Track
+            </button>
 
-                <p className="text-gray-500">
+          </div>
+
+          {/* Result */}
+
+          {booking && (
+            <div className="mt-10 border rounded-3xl p-8">
+
+              <div className="flex justify-between border-b pb-4">
+
+                <span className="text-gray-500">
                   Booking ID
-                </p>
+                </span>
 
-                <h2
-                  className="
-                  mt-2
-                  text-2xl
-                  font-bold
-                  text-gray-800
-                  "
-                >
-                  CLR-458964
-                </h2>
+                <span className="font-bold text-amber-500">
+                  {booking.bookingId}
+                </span>
 
               </div>
 
-              <div>
+              <div className="flex justify-between py-4 border-b">
 
-                <p className="text-gray-500">
-                  Service Name
-                </p>
+                <span className="text-gray-500">
+                  Service
+                </span>
 
-                <h2
-                  className="
-                  mt-2
-                  text-2xl
-                  font-bold
-                  text-gray-800
-                  "
-                >
-                  AC Repair Service
-                </h2>
+                <span>
+                  {booking.service}
+                </span>
 
               </div>
 
-              <div>
+              <div className="flex justify-between py-4 border-b">
 
-                <p className="text-gray-500">
-                  Booking Date
-                </p>
+                <span className="text-gray-500">
+                  Customer
+                </span>
 
-                <h2
-                  className="
-                  mt-2
-                  text-xl
-                  font-semibold
-                  text-gray-800
-                  "
-                >
-                  18 July 2026
-                </h2>
+                <span>
+                  {booking.fullName}
+                </span>
 
               </div>
 
-            </div>
+              <div className="flex justify-between py-4 border-b">
 
-          </div>
+                <span className="text-gray-500">
+                  Date
+                </span>
 
-        </section>
+                <span>
+                  {booking.date}
+                </span>
 
+              </div>
 
-        {/* Employee Card */}
+              <div className="flex justify-between py-4 border-b">
 
-        <section className="px-5 py-10">
+                <span className="text-gray-500">
+                  Time
+                </span>
 
-          <div className="mx-auto max-w-7xl">
+                <span>
+                  {booking.time}
+                </span>
 
-            <EmployeeCard />
+              </div>
 
-          </div>
+              <div className="flex justify-between py-4 border-b">
 
-        </section>
+                <span className="text-gray-500">
+                  Payment
+                </span>
 
+                <span>
+                  {booking.payment}
+                </span>
 
-        {/* Service Timeline */}
+              </div>
 
-        <section className="px-5 pb-12">
+              <div className="flex justify-between pt-4">
 
-          <div
-            className="
-            mx-auto
-            max-w-7xl
-            rounded-3xl
-            bg-white
-            p-8
-            shadow-sm
-            "
-          >
-            <h2
-              className="
-              text-3xl
-              font-bold
-              text-gray-800
-              "
-            >
-              Service Status
-            </h2>
+                <span className="text-gray-500">
+                  Status
+                </span>
 
+                <span className="flex items-center gap-2 text-green-600 font-semibold">
 
-            <div className="mt-10 space-y-8">
+                  <FaCheckCircle />
 
+                  {booking.status}
 
-              {/* Assigned */}
+                </span>
 
-              <div className="flex gap-5">
+              </div>
 
-                <FaCheckCircle
-                  className="
-                  text-3xl
-                  text-green-500
-                  "
-                />
+              {/* Timeline */}
 
-                <div>
-                  <h3
-                    className="
-                    text-xl
-                    font-bold
-                    text-gray-800
-                    "
-                  >
-                    Employee Assigned
+              <div className="mt-10 grid md:grid-cols-3 gap-5">
+
+                <div className="bg-green-50 rounded-2xl p-5 text-center">
+
+                  <FaCheckCircle
+                    className="mx-auto text-green-500"
+                    size={30}
+                  />
+
+                  <h3 className="mt-3 font-bold">
+                    Booking Confirmed
                   </h3>
-
-                  <p className="mt-2 text-gray-500">
-                    Your service professional
-                    has been assigned.
-                  </p>
-                </div>
-
-              </div>
-
-
-              {/* On The Way */}
-
-              <div className="flex gap-5">
-
-                <FaTruckMoving
-                  className="
-                  text-3xl
-                  text-amber-500
-                  "
-                />
-
-                <div>
-
-                  <h3
-                    className="
-                    text-xl
-                    font-bold
-                    text-gray-800
-                    "
-                  >
-                    On The Way
-                  </h3>
-
-                  <p className="mt-2 text-gray-500">
-                    Your professional will
-                    arrive in approximately
-                    20 minutes.
-                  </p>
 
                 </div>
 
-              </div>
+                <div className="bg-blue-50 rounded-2xl p-5 text-center">
 
+                  <FaClock
+                    className="mx-auto text-blue-500"
+                    size={30}
+                  />
 
-              {/* Service Started */}
-
-              <div className="flex gap-5">
-
-                <FaTools
-                  className="
-                  text-3xl
-                  text-blue-500
-                  "
-                />
-
-                <div>
-
-                  <h3
-                    className="
-                    text-xl
-                    font-bold
-                    text-gray-800
-                    "
-                  >
-                    Service Started
+                  <h3 className="mt-3 font-bold">
+                    Professional Assigned
                   </h3>
-
-                  <p className="mt-2 text-gray-500">
-                    Service will begin after
-                    arrival confirmation.
-                  </p>
 
                 </div>
 
-              </div>
+                <div className="bg-amber-50 rounded-2xl p-5 text-center">
 
+                  <FaClock
+                    className="mx-auto text-amber-500"
+                    size={30}
+                  />
 
-              {/* OTP */}
-
-              <div className="flex gap-5">
-
-                <FaClock
-                  className="
-                  text-3xl
-                  text-red-500
-                  "
-                />
-
-                <div>
-
-                  <h3
-                    className="
-                    text-xl
-                    font-bold
-                    text-gray-800
-                    "
-                  >
-                    OTP Verification
+                  <h3 className="mt-3 font-bold">
+                    Arriving Soon
                   </h3>
-
-                  <p className="mt-2 text-gray-500">
-                    OTP verification will be
-                    required after service
-                    completion.
-                  </p>
 
                 </div>
 
               </div>
 
             </div>
+          )}
 
-          </div>
+        </div>
 
-        </section>
+      </div>
 
-      </main>
-
-      <Footer />
-
-    </>
+    </section>
   );
 };
 

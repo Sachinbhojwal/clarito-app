@@ -1,6 +1,3 @@
-import Navbar from "../../components/common/Navbar";
-import Footer from "../../components/common/Footer";
-
 import ContactHero from "../../components/contact/ContactHero";
 import ContactInfo from "../../components/contact/ContactInfo";
 import ContactForm from "../../components/contact/ContactForm";
@@ -10,27 +7,19 @@ import CTASection from "../../components/contact/CATSection";
 
 const Contact = () => {
   return (
-    <>
-      <Navbar />
+    <main className="bg-white">
+      <ContactHero />
 
-      <main className="bg-white">
+      <ContactInfo />
 
-        <ContactHero />
+      <ContactForm />
 
-        <ContactInfo />
+      <FAQSection />
 
-        <ContactForm />
+      <MapSection />
 
-        <FAQSection />
-
-        <MapSection />
-
-        <CTASection />
-
-      </main>
-
-      <Footer />
-    </>
+      <CTASection />
+    </main>
   );
 };
 

@@ -1,8 +1,5 @@
 import { useState } from "react";
 
-import Navbar from "../../components/common/Navbar";
-import Footer from "../../components/common/Footer";
-
 import ServicesHero from "../../components/services/ServicesHero";
 import ServiceSearch from "../../components/services/ServiceSearch";
 import ServiceCategories from "../../components/services/ServiceCategories";
@@ -13,39 +10,32 @@ import FAQSection from "../../components/services/FAQSection";
 import CTASection from "../../components/services/CTASection";
 
 const Services = () => {
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedCategory, setSelectedCategory] =
+    useState("all");
 
   return (
-    <>
-      <Navbar />
+    <main className="bg-gray-50">
+      <ServicesHero />
 
-      <main>
+      <ServiceSearch />
 
-        <ServicesHero />
+      <ServiceCategories
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+      />
 
-        <ServiceSearch />
+      <ServiceGrid
+        selectedCategory={selectedCategory}
+      />
 
-        <ServiceCategories
-          selectedCategory={selectedCategory}
-          setSelectedCategory={setSelectedCategory}
-        />
+      <WhyChooseUs />
 
-        <ServiceGrid
-          selectedCategory={selectedCategory}
-        />
+      <HowItWorks />
 
-        <WhyChooseUs />
+      <FAQSection />
 
-        <HowItWorks />
-
-        <FAQSection />
-
-        <CTASection />
-
-      </main>
-
-      <Footer />
-    </>
+      <CTASection />
+    </main>
   );
 };
 

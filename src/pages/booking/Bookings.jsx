@@ -1,6 +1,3 @@
-import Navbar from "../../components/common/Navbar";
-import Footer from "../../components/common/Footer";
-
 import BookingHero from "../../components/booking/BookingHero";
 import BookingSteps from "../../components/booking/BookingSteps";
 import BookingForm from "../../components/booking/BookingForm";
@@ -8,54 +5,43 @@ import BookingBenefits from "../../components/booking/BookingBenefits";
 import PaymentMethods from "../../components/booking/PaymentMethods";
 import CustomerReviews from "../../components/booking/CustomerReviews";
 import BookingFAQ from "../../components/booking/BookingFAQ";
-import AvailableSlots from
-  "../../components/booking/AvailableSlots";
+import AvailableSlots from "../../components/booking/AvailableSlots";
 
 const Bookings = () => {
   return (
-    <>
-      {/* Navbar */}
+    <main className="bg-gray-50">
+      {/* Hero Section */}
 
-      <Navbar />
+      <BookingHero />
 
-      {/* Main Section */}
+      {/* Booking Process */}
 
-      <main className="bg-gray-50">
-        {/* Hero Section */}
+      <BookingSteps />
 
-        <BookingHero />
+      {/* Booking Form */}
 
-        {/* Booking Process */}
+      <BookingForm />
 
-        <BookingSteps />
+      {/* Available Slots */}
 
-        {/* Booking Form */}
+      <AvailableSlots />
 
-        <BookingForm />
+      {/* Booking Benefits */}
 
-        {/* Booking Benefits */}
+      <BookingBenefits />
 
-        <AvailableSlots />
+      {/* Payment Methods */}
 
-        <BookingBenefits />
+      <PaymentMethods />
 
-        {/* Payment Methods */}
+      {/* Customer Reviews */}
 
-        <PaymentMethods />
+      <CustomerReviews />
 
-        {/* Customer Reviews */}
+      {/* FAQs */}
 
-        <CustomerReviews />
-
-        {/* FAQs */}
-
-        <BookingFAQ />
-      </main>
-
-      {/* Footer */}
-
-      <Footer />
-    </>
+      <BookingFAQ />
+    </main>
   );
 };
 

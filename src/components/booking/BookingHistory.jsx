@@ -290,7 +290,7 @@ font - semibold
                 "
               >
                 <Link
-                  to="/track-booking"
+                  to="/customer/track-booking"
                   className="
                   flex
                   items-center

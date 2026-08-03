@@ -1,29 +1,32 @@
-import { FiSearch } from "react-icons/fi";
+import { FaSearch } from "react-icons/fa";
 
 const SearchBar = () => {
   return (
-    <div
-      className="
-      hidden
-      lg:flex
-      items-center
-      bg-gray-100
-      rounded-full
-      px-4
-      py-2
-      "
-    >
-      <FiSearch className="text-gray-400" />
-
+    <div className="relative hidden xl:block">
       <input
         type="text"
         placeholder="Search..."
         className="
-        bg-transparent
+        w-64
+        rounded-full
+        border
+        border-gray-300
+        py-2
+        pl-10
+        pr-4
         outline-none
-        ml-2
-        text-sm
-        w-40
+        transition
+        focus:border-amber-500
+        "
+      />
+
+      <FaSearch
+        className="
+        absolute
+        left-4
+        top-1/2
+        -translate-y-1/2
+        text-gray-400
         "
       />
     </div>

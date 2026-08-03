@@ -65,7 +65,7 @@ const BookingForm = () => {
       JSON.stringify(allBookings)
     );
 
-    navigate("/booking-success");
+    navigate("/booking/success");
   };
 
   return (

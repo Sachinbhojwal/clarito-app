@@ -1,8 +1,5 @@
-import Navbar from "../../components/common/Navbar";
-import Footer from "../../components/common/Footer";
-
 import AboutHero from "../../components/about/AboutHero";
-import OurStory from "../../components/about/OurStory"
+import OurStory from "../../components/about/OurStory";
 import MissionVision from "../../components/about/MissionVision";
 import WhyChooseUs from "../../components/about/WhyChooseUs";
 import StatsSection from "../../components/about/StatsSection";
@@ -12,10 +9,7 @@ import CTASection from "../../components/about/CTASection";
 
 const About = () => {
   return (
-    <>
-      {/* Navbar */}
-      <Navbar />
-
+    <main className="bg-gray-50">
       {/* Hero */}
       <AboutHero />
 
@@ -39,10 +33,7 @@ const About = () => {
 
       {/* Call To Action */}
       <CTASection />
-
-      {/* Footer */}
-      <Footer />
-    </>
+    </main>
   );
 };
 

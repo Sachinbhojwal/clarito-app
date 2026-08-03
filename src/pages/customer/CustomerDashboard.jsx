@@ -134,7 +134,7 @@ const CustomerDashboard = () => {
           <div className="grid md:grid-cols-3 gap-6 mt-6">
 
             <Link
-              to="/my-bookings"
+              to="/customer/bookings"
               className="
                 bg-white
                 rounded-3xl
@@ -154,7 +154,7 @@ const CustomerDashboard = () => {
             </Link>
 
             <Link
-              to="/track-booking"
+              to="/customer/track-booking"
               className="
                 bg-white
                 rounded-3xl
@@ -174,7 +174,7 @@ const CustomerDashboard = () => {
             </Link>
 
             <Link
-              to="/services"
+              to="/customer/services"
               className="
                 bg-white
                 rounded-3xl

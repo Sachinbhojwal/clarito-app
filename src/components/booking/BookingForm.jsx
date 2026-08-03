@@ -81,7 +81,7 @@ const BookingForm = () => {
 
     alert("Booking Submitted Successfully!");
 
-    navigate("/booking-success");
+    navigate("/booking/success");
   };
 
   return (

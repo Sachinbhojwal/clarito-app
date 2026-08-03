@@ -169,7 +169,7 @@ const BookingSuccess = () => {
         <div className="mt-10 grid md:grid-cols-3 gap-4">
 
           <Link
-            to="/track-booking"
+            to="/customer/track-booking"
             className="
             flex
             items-center
@@ -190,7 +190,7 @@ const BookingSuccess = () => {
           </Link>
 
           <Link
-            to="/my-bookings"
+            to="/customer/bookings"
             className="
             flex
             items-center

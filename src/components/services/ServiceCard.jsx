@@ -1,4 +1,7 @@
-import { Link } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+} from "react-router-dom";
 
 import {
   FaStar,
@@ -7,36 +10,48 @@ import {
 } from "react-icons/fa";
 
 const ServiceCard = ({ service }) => {
+  const location = useLocation();
+
+  const isCustomer =
+    location.pathname.startsWith("/customer");
+
+  const detailsPath = isCustomer
+    ? `/customer/services/${service.slug}`
+    : `/services/${service.slug}`;
+
+  const bookingPath = isCustomer
+    ? "/customer/booking"
+    : "/booking";
+
   return (
     <div
       className="
-        group
-        overflow-hidden
-        rounded-3xl
-        bg-white
-        border
-        border-gray-200
-        shadow-md
-        hover:shadow-2xl
-        hover:-translate-y-2
-        transition-all
-        duration-300
+      group
+      overflow-hidden
+      rounded-3xl
+      border
+      border-gray-200
+      bg-white
+      shadow-md
+      transition-all
+      duration-300
+      hover:-translate-y-2
+      hover:shadow-2xl
       "
     >
       {/* Image */}
 
       <div className="relative overflow-hidden">
-
         <img
           src={service.image}
           alt={service.title}
           className="
-            h-64
-            w-full
-            object-cover
-            transition-transform
-            duration-500
-            group-hover:scale-110
+          h-64
+          w-full
+          object-cover
+          transition-transform
+          duration-500
+          group-hover:scale-110
           "
         />
 
@@ -44,17 +59,17 @@ const ServiceCard = ({ service }) => {
 
         <span
           className="
-            absolute
-            top-4
-            left-4
-            bg-amber-500
-            text-white
-            px-4
-            py-2
-            rounded-full
-            text-xs
-            font-semibold
-            shadow-lg
+          absolute
+          left-4
+          top-4
+          rounded-full
+          bg-amber-500
+          px-4
+          py-2
+          text-xs
+          font-semibold
+          text-white
+          shadow-lg
           "
         >
           {service.category}
@@ -64,17 +79,17 @@ const ServiceCard = ({ service }) => {
 
         <div
           className="
-            absolute
-            top-4
-            right-4
-            bg-white
-            rounded-full
-            px-3
-            py-2
-            flex
-            items-center
-            gap-2
-            shadow-lg
+          absolute
+          right-4
+          top-4
+          flex
+          items-center
+          gap-2
+          rounded-full
+          bg-white
+          px-3
+          py-2
+          shadow-lg
           "
         >
           <FaStar className="text-yellow-400" />
@@ -82,20 +97,17 @@ const ServiceCard = ({ service }) => {
           <span className="font-semibold">
             {service.rating}
           </span>
-
         </div>
-
       </div>
 
       {/* Body */}
 
       <div className="p-6">
-
         <h3
           className="
-            text-2xl
-            font-bold
-            text-gray-900
+          text-2xl
+          font-bold
+          text-gray-900
           "
         >
           {service.title}
@@ -103,49 +115,47 @@ const ServiceCard = ({ service }) => {
 
         <p
           className="
-            mt-4
-            text-gray-600
-            leading-7
-            line-clamp-3
+          mt-4
+          line-clamp-3
+          leading-7
+          text-gray-600
           "
         >
           {service.description}
         </p>
 
-        {/* Price & Duration */}
+        {/* Price */}
 
         <div
           className="
-            mt-6
-            flex
-            justify-between
-            items-center
+          mt-6
+          flex
+          items-center
+          justify-between
           "
         >
           <div>
-
             <p className="text-sm text-gray-500">
               Starting From
             </p>
 
             <h4
               className="
-                text-3xl
-                font-bold
-                text-amber-500
+              text-3xl
+              font-bold
+              text-amber-500
               "
             >
               ₹{service.price}
             </h4>
-
           </div>
 
           <div
             className="
-              flex
-              items-center
-              gap-2
-              text-gray-500
+            flex
+            items-center
+            gap-2
+            text-gray-500
             "
           >
             <FaClock />
@@ -153,9 +163,7 @@ const ServiceCard = ({ service }) => {
             <span>
               {service.duration}
             </span>
-
           </div>
-
         </div>
 
         {/* Buttons */}
@@ -163,22 +171,23 @@ const ServiceCard = ({ service }) => {
         <div className="mt-8 flex gap-4">
 
           <Link
-            to={`/services/${service.slug}`}
+            to={detailsPath}
+            state={{ service }}
             className="
-              flex-1
-              border-2
-              border-amber-500
-              text-amber-500
-              py-3
-              rounded-xl
-              font-semibold
-              flex
-              items-center
-              justify-center
-              gap-2
-              hover:bg-amber-500
-              hover:text-white
-              transition
+            flex
+            flex-1
+            items-center
+            justify-center
+            gap-2
+            rounded-xl
+            border-2
+            border-amber-500
+            py-3
+            font-semibold
+            text-amber-500
+            transition
+            hover:bg-amber-500
+            hover:text-white
             "
           >
             Details
@@ -187,27 +196,25 @@ const ServiceCard = ({ service }) => {
           </Link>
 
           <Link
-            to="/booking"
+            to={bookingPath}
             state={{ service }}
             className="
-              flex-1
-              bg-amber-500
-              text-white
-              py-3
-              rounded-xl
-              font-semibold
-              text-center
-              hover:bg-amber-600
-              transition
+            flex-1
+            rounded-xl
+            bg-amber-500
+            py-3
+            text-center
+            font-semibold
+            text-white
+            transition
+            hover:bg-amber-600
             "
           >
             Book Now
           </Link>
 
         </div>
-
       </div>
-
     </div>
   );
 };

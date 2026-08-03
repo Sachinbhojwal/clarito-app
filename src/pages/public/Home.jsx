@@ -1,6 +1,3 @@
-import Navbar from "../../components/common/Navbar";
-import Footer from "../../components/common/Footer";
-
 import Hero from "../../components/home/Hero";
 import HomeServices from "../../components/home/HomeServices";
 import WhyChooseUs from "../../components/home/WhyChooseUs";
@@ -13,33 +10,25 @@ import CTASection from "../../components/home/CTASection";
 
 const Home = () => {
   return (
-    <>
-      <Navbar />
+    <main className="bg-gray-50">
+      <Hero />
 
-      <main className="bg-gray-50">
+      <HomeServices />
 
-        <Hero />
+      <WhyChooseUs />
 
-        <HomeServices />
+      <HowItWorks />
 
-        <WhyChooseUs />
+      <Statistics />
 
-        <HowItWorks />
+      <FeaturedProfessionals />
 
-        <Statistics />
+      <Testimonials />
 
-        <FeaturedProfessionals />
+      <FAQ />
 
-        <Testimonials />
-
-        <FAQ />
-
-        <CTASection />
-
-      </main>
-
-      <Footer />
-    </>
+      <CTASection />
+    </main>
   );
 };
 

@@ -1,6 +1,12 @@
 import { Routes, Route } from "react-router-dom";
 
-/* Public Pages */
+import PublicLayout from "../layouts/PublicLayout";
+import CustomerLayout from "../layouts/CustomerLayout";
+import ProviderLayout from "../layouts/ProviderLayout";
+
+import ProtectedRoute from "./ProtectedRoute";
+
+/* Public */
 
 import Home from "../pages/public/Home";
 import About from "../pages/public/About";
@@ -9,217 +15,199 @@ import Login from "../pages/public/Login";
 import Register from "../pages/public/Register";
 import AdminLogin from "../pages/public/AdminLogin";
 
-/* Booking Pages */
+/* Booking */
 
-import Bookings from "../pages/booking/Bookings";
 import Services from "../pages/booking/Services";
 import ServiceDetails from "../pages/booking/ServiceDetails";
+import Bookings from "../pages/booking/Bookings";
 import BookingSuccess from "../pages/booking/BookingSuccess";
 import MyBookings from "../pages/booking/MyBookings";
 
-/* Customer Pages */
+/* Customer */
 
 import CustomerDashboard from "../pages/customer/CustomerDashboard";
-import TrackBooking from "../pages/customer/TrackBooking";
+import CustomerProfile from "../pages/customer/CustomerProfile";
 import Notifications from "../pages/customer/Notifications";
+import TrackBooking from "../pages/customer/TrackBooking";
 
-/* Provider Pages */
+/* Provider */
 
 import ProviderDashboard from "../pages/provider/ProviderDashboard";
-
-/* Admin Pages */
-
-import AdminDashboard from "../pages/admin/AdminDashboard";
-import Employees from "../pages/admin/Employees";
-import Customers from "../pages/admin/Customers";
-import Payments from "../pages/admin/Payments";
-import Reviews from "../pages/admin/Reviews";
-import Settings from "../pages/admin/Settings";
-import ServicesManagement from "../pages/admin/ServicesManagement";
-
-/* Layout */
-
-import AdminLayout from "../components/admin/AdminLayout";
-
-/* Protected Routes */
-
-import ProtectedRoute from "./ProtectedRoute";
-import AdminProtectedRoute from "./AdminProtectedRoute";
+import ProviderProfileForm from "../pages/provider/ProviderProfileForm";
+import ProviderProfile from "../pages/provider/ProviderProfile";
+import ProviderJobs from "../pages/provider/ProviderJobs";
+import ProviderNotifications from "../pages/provider/ProviderNotifications";
+import ProviderReviews from "../pages/provider/ProviderReviews";
+import ProviderSettings from "../pages/provider/ProviderSettings";
+import Earnings from "../pages/provider/Earnings";
+import Availability from "../pages/provider/Availability";
 
 const AppRoutes = () => {
   return (
     <Routes>
 
-      {/*================================*/}
-      {/* Public Routes */}
-      {/*================================*/}
+      {/* ================= PUBLIC ================= */}
 
-      <Route path="/" element={<Home />} />
+      <Route element={<PublicLayout />}>
+
+        <Route path="/" element={<Home />} />
+
+        <Route path="/about" element={<About />} />
+
+        <Route path="/contact" element={<Contact />} />
+
+        <Route path="/services" element={<Services />} />
+
+        <Route
+          path="/services/:slug"
+          element={<ServiceDetails />}
+        />
+
+        <Route path="/booking" element={<Bookings />} />
+
+        {/* ✅ Booking Success Route */}
+
+        <Route
+          path="/booking/success"
+          element={<BookingSuccess />}
+        />
+
+        <Route path="/login" element={<Login />} />
+
+        <Route path="/register" element={<Register />} />
+
+        <Route
+          path="/admin/login"
+          element={<AdminLogin />}
+        />
+
+      </Route>
+
+      {/* ================= CUSTOMER ================= */}
 
       <Route
-        path="/about"
-        element={<About />}
-      />
-
-      <Route
-        path="/contact"
-        element={<Contact />}
-      />
-
-      <Route
-        path="/login"
-        element={<Login />}
-      />
-
-      <Route
-        path="/register"
-        element={<Register />}
-      />
-
-      <Route
-        path="/admin-login"
-        element={<AdminLogin />}
-      />
-
-      {/*================================*/}
-      {/* Booking Routes */}
-      {/*================================*/}
-
-      <Route
-        path="/booking"
-        element={<Bookings />}
-      />
-
-      <Route
-        path="/booking-success"
         element={
-          <ProtectedRoute
-            allowedRole="customer"
-          >
-            <BookingSuccess />
+          <ProtectedRoute allowedRole="customer">
+            <CustomerLayout />
           </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/my-bookings"
-        element={
-          <ProtectedRoute
-            allowedRole="customer"
-          >
-            <MyBookings />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/services"
-        element={<Services />}
-      />
-
-      <Route
-        path="/services/:slug"
-        element={<ServiceDetails />}
-      />
-
-      {/*================================*/}
-      {/* Customer Routes */}
-      {/*================================*/}
-
-      <Route
-        path="/customer-dashboard"
-        element={
-          <ProtectedRoute
-            allowedRole="customer"
-          >
-            <CustomerDashboard />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/track-booking"
-        element={
-          <ProtectedRoute
-            allowedRole="customer"
-          >
-            <TrackBooking />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/notifications"
-        element={
-          <ProtectedRoute
-            allowedRole="customer"
-          >
-            <Notifications />
-          </ProtectedRoute>
-        }
-      />
-
-      {/*================================*/}
-      {/* Provider Routes */}
-      {/*================================*/}
-
-      <Route
-        path="/provider-dashboard"
-        element={
-          <ProtectedRoute
-            allowedRole="provider"
-          >
-            <ProviderDashboard />
-          </ProtectedRoute>
-        }
-      />
-
-      {/*================================*/}
-      {/* Admin Routes */}
-      {/*================================*/}
-
-      <Route
-        path="/admin"
-        element={
-          <AdminProtectedRoute>
-            <AdminLayout />
-          </AdminProtectedRoute>
         }
       >
+        {/* Dashboard */}
+
         <Route
-          index
-          element={<AdminDashboard />}
+          path="/customer/dashboard"
+          element={<CustomerDashboard />}
+        />
+
+        {/* Services */}
+
+        <Route
+          path="/customer/services"
+          element={<Services />}
         />
 
         <Route
-          path="employees"
-          element={<Employees />}
+          path="/customer/services/:slug"
+          element={<ServiceDetails />}
+        />
+
+        {/* Booking */}
+
+        <Route
+          path="/customer/booking"
+          element={<Bookings />}
         />
 
         <Route
-          path="customers"
-          element={<Customers />}
+          path="/customer/booking/success"
+          element={<BookingSuccess />}
+        />
+
+        {/* My Bookings */}
+
+        <Route
+          path="/customer/bookings"
+          element={<MyBookings />}
+        />
+
+        {/* Track Booking */}
+
+        <Route
+          path="/customer/track-booking"
+          element={<TrackBooking />}
+        />
+
+        {/* Notifications */}
+
+        <Route
+          path="/customer/notifications"
+          element={<Notifications />}
+        />
+
+        {/* Profile */}
+
+        <Route
+          path="/customer/profile"
+          element={<CustomerProfile />}
+        />
+      </Route>
+
+
+      {/* ================= PROVIDER ================= */}
+
+      <Route
+        element={
+          <ProtectedRoute allowedRole="provider">
+            <ProviderLayout />
+          </ProtectedRoute>
+        }
+      >
+
+        <Route
+          path="/provider/dashboard"
+          element={<ProviderDashboard />}
         />
 
         <Route
-          path="services"
-          element={<ServicesManagement />}
+          path="/provider/profile-form"
+          element={<ProviderProfileForm />}
         />
 
         <Route
-          path="payments"
-          element={<Payments />}
+          path="/provider/profile"
+          element={<ProviderProfile />}
         />
 
         <Route
-          path="reviews"
-          element={<Reviews />}
+          path="/provider/jobs"
+          element={<ProviderJobs />}
         />
 
         <Route
-          path="settings"
-          element={<Settings />}
+          path="/provider/notifications"
+          element={<ProviderNotifications />}
         />
+
+        <Route
+          path="/provider/reviews"
+          element={<ProviderReviews />}
+        />
+
+        <Route
+          path="/provider/earnings"
+          element={<Earnings />}
+        />
+
+        <Route
+          path="/provider/availability"
+          element={<Availability />}
+        />
+
+        <Route
+          path="/provider/settings"
+          element={<ProviderSettings />}
+        />
+
       </Route>
 
     </Routes>

@@ -1,0 +1,17 @@
+[33maf7bec8[m Initial commit
+[33m1c6f1cd[m Setup GitHub Pages
+[33m5807c9e[m Use HashRouter for GitHub Pages
+[33m33b5b65[m Fix GitHub Pages configuration
+[33m34dc511[m Fix image paths for GitHub Pages
+[33mc75f956[m Fix all image paths for GitHub Pages
+[33m07572d0[m Fix all image paths for GitHub Pages
+[33m6c2bb8f[m Fix service image paths
+[33mfc51051[m Complete Home page, About, Contact, Booking UI and Service Details
+[33m786ed4c[m Add GitHub Actions deployment
+[33mc7acfbb[m admin and modified
+[33m975a9bd[m almost frontend complete and update
+[33m9c22930[m nav and manything update
+[33me9e32cb[m Updated customer and provider routes
+[33mb4e9ea7[m Update authentication and booking flow
+[33m7657057[m Update auth API endpoints
+[33mce77cb4[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Fix production backend URL

@@ -8,9 +8,7 @@ const RegisterForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const [showPassword, setShowPassword] =
-    useState(false);
-
+  const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] =
     useState(false);
 
@@ -43,46 +41,38 @@ const RegisterForm = () => {
   // =================================================
 
   const validateForm = () => {
+    // Name
     if (!formData.name.trim()) {
       return "Please enter your full name.";
     }
 
-    if (
-      formData.name.trim().length < 2
-    ) {
+    if (formData.name.trim().length < 2) {
       return "Name must be at least 2 characters.";
     }
 
+    // Email
     if (!formData.email.trim()) {
       return "Please enter your email.";
     }
 
-    const emailRegex =
-      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (
-      !emailRegex.test(
-        formData.email.trim()
-      )
-    ) {
+    if (!emailRegex.test(formData.email.trim())) {
       return "Please enter a valid email address.";
     }
 
+    // Phone
     if (!formData.phone.trim()) {
       return "Please enter your phone number.";
     }
 
-    const phoneRegex =
-      /^[6-9][0-9]{9}$/;
+    const phoneRegex = /^[6-9][0-9]{9}$/;
 
-    if (
-      !phoneRegex.test(
-        formData.phone.trim()
-      )
-    ) {
+    if (!phoneRegex.test(formData.phone.trim())) {
       return "Please enter a valid 10-digit phone number.";
     }
 
+    // Password
     if (!formData.password) {
       return "Please enter your password.";
     }
@@ -90,30 +80,21 @@ const RegisterForm = () => {
     const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^()_\-+=])[A-Za-z\d@$!%*?&#^()_\-+=]{8,}$/;
 
-    if (
-      !passwordRegex.test(
-        formData.password
-      )
-    ) {
+    if (!passwordRegex.test(formData.password)) {
       return "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character.";
     }
 
+    // Confirm Password
     if (!formData.confirmPassword) {
       return "Please confirm your password.";
     }
 
-    if (
-      formData.password !==
-      formData.confirmPassword
-    ) {
+    if (formData.password !== formData.confirmPassword) {
       return "Passwords do not match.";
     }
 
-    if (
-      !["customer", "provider"].includes(
-        formData.role
-      )
-    ) {
+    // Role
+    if (!["customer", "provider"].includes(formData.role)) {
       return "Please select a valid account type.";
     }
 
@@ -129,8 +110,8 @@ const RegisterForm = () => {
 
     setError("");
 
-    const validationError =
-      validateForm();
+    // Validate form
+    const validationError = validateForm();
 
     if (validationError) {
       setError(validationError);
@@ -140,73 +121,70 @@ const RegisterForm = () => {
     try {
       setLoading(true);
 
+      // =================================================
+      // PAYLOAD
+      // =================================================
+
       const payload = {
         name: formData.name.trim(),
-
-        email:
-          formData.email
-            .trim()
-            .toLowerCase(),
-
-        phone:
-          formData.phone.trim(),
-
-        password:
-          formData.password,
-
-        confirmPassword:
-          formData.confirmPassword,
-
-        role:
-          formData.role,
+        email: formData.email.trim().toLowerCase(),
+        phone: formData.phone.trim(),
+        password: formData.password,
+        confirmPassword: formData.confirmPassword,
+        role: formData.role,
       };
 
-      console.log(
-        "REGISTER PAYLOAD:",
+      // Do not print real passwords in console
+      console.log("REGISTER PAYLOAD:", {
+        ...payload,
+        password: "HIDDEN",
+        confirmPassword: "HIDDEN",
+      });
+
+      // =================================================
+      // API CALL
+      // =================================================
+
+      console.log("Calling API...");
+
+      const response = await fetch(
+        "https://clarito-backend-2.onrender.com/api/auth/register",
         {
-          ...payload,
-          password: "HIDDEN",
-          confirmPassword: "HIDDEN",
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          credentials: "include",
+
+          body: JSON.stringify(payload),
         }
       );
 
-      const response =
-        await fetch(
-          "https://clarito-backend-2.onrender.com/api/auth/register",
-          {
-            method: "POST",
+      console.log("API Called");
 
-            headers: {
-              "Content-Type":
-                "application/json",
-            },
+      console.log("REGISTER STATUS:", response.status);
+      console.log("REGISTER OK:", response.ok);
 
-            credentials: "include",
-
-            body: JSON.stringify(
-              payload
-            ),
-          }
-        );
+      // =================================================
+      // RESPONSE
+      // =================================================
 
       let data = {};
 
       try {
-        data =
-          await response.json();
-      } catch {
+        data = await response.json();
+      } catch (jsonError) {
+        console.warn(
+          "Response is not valid JSON:",
+          jsonError
+        );
+
         data = {};
       }
 
-      console.log(
-        "REGISTER STATUS:",
-        response.status
-      );
-
-      console.log(
-        "REGISTER RESPONSE:",
-        data
-      );
+      console.log("REGISTER RESPONSE:", data);
 
       // =================================================
       // UNVERIFIED ACCOUNT
@@ -216,15 +194,12 @@ const RegisterForm = () => {
         data?.needsVerification &&
         data?.email
       ) {
-        navigate(
-          "/verify-otp",
-          {
-            state: {
-              email: data.email,
-              role: payload.role,
-            },
-          }
-        );
+        navigate("/verify-otp", {
+          state: {
+            email: data.email,
+            role: payload.role,
+          },
+        });
 
         return;
       }
@@ -248,23 +223,17 @@ const RegisterForm = () => {
       // SUCCESS
       // =================================================
 
-      navigate(
-        "/verify-otp",
-        {
-          state: {
-            email: payload.email,
-            role: payload.role,
-          },
-        }
-      );
+      navigate("/verify-otp", {
+        state: {
+          email: payload.email,
+          role: payload.role,
+        },
+      });
     } catch (error) {
-      console.error(
-        "REGISTER ERROR:",
-        error
-      );
+      console.error("REGISTER ERROR:", error);
 
       setError(
-        "Unable to connect to server. Please try again."
+        "Unable to connect to server. Please check your internet connection and try again."
       );
     } finally {
       setLoading(false);
@@ -281,7 +250,6 @@ const RegisterForm = () => {
       {/* Header */}
 
       <div className="text-center mb-8">
-
         <h2 className="text-3xl font-bold text-gray-800">
           Create Account
         </h2>
@@ -289,18 +257,15 @@ const RegisterForm = () => {
         <p className="text-gray-500 mt-2">
           Register to continue
         </p>
-
       </div>
 
       {/* Error */}
 
       {error && (
         <div className="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3">
-
           <p className="text-sm text-red-600">
             {error}
           </p>
-
         </div>
       )}
 
@@ -314,7 +279,6 @@ const RegisterForm = () => {
         {/* Name */}
 
         <div>
-
           <label
             htmlFor="name"
             className="block text-sm font-medium text-gray-700 mb-2"
@@ -334,13 +298,11 @@ const RegisterForm = () => {
             disabled={loading}
             className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none transition focus:border-yellow-500 focus:ring-2 focus:ring-yellow-100 disabled:bg-gray-100"
           />
-
         </div>
 
         {/* Email */}
 
         <div>
-
           <label
             htmlFor="email"
             className="block text-sm font-medium text-gray-700 mb-2"
@@ -360,13 +322,11 @@ const RegisterForm = () => {
             disabled={loading}
             className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none transition focus:border-yellow-500 focus:ring-2 focus:ring-yellow-100 disabled:bg-gray-100"
           />
-
         </div>
 
         {/* Phone */}
 
         <div>
-
           <label
             htmlFor="phone"
             className="block text-sm font-medium text-gray-700 mb-2"
@@ -383,6 +343,7 @@ const RegisterForm = () => {
             onChange={handleChange}
             autoComplete="tel"
             maxLength={10}
+            inputMode="numeric"
             required
             disabled={loading}
             className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none transition focus:border-yellow-500 focus:ring-2 focus:ring-yellow-100 disabled:bg-gray-100"
@@ -392,13 +353,11 @@ const RegisterForm = () => {
             Phone number is required for your account.
             Phone verification is not required.
           </p>
-
         </div>
 
         {/* Password */}
 
         <div>
-
           <label
             htmlFor="password"
             className="block text-sm font-medium text-gray-700 mb-2"
@@ -407,7 +366,6 @@ const RegisterForm = () => {
           </label>
 
           <div className="relative">
-
             <input
               id="password"
               type={
@@ -434,6 +392,11 @@ const RegisterForm = () => {
                 )
               }
               disabled={loading}
+              aria-label={
+                showPassword
+                  ? "Hide password"
+                  : "Show password"
+              }
               className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-800"
             >
               {showPassword ? (
@@ -442,20 +405,17 @@ const RegisterForm = () => {
                 <FaEye size={18} />
               )}
             </button>
-
           </div>
 
           <p className="text-xs text-gray-500 mt-1">
             At least 8 characters, including uppercase,
             lowercase, number and special character.
           </p>
-
         </div>
 
         {/* Confirm Password */}
 
         <div>
-
           <label
             htmlFor="confirmPassword"
             className="block text-sm font-medium text-gray-700 mb-2"
@@ -464,7 +424,6 @@ const RegisterForm = () => {
           </label>
 
           <div className="relative">
-
             <input
               id="confirmPassword"
               type={
@@ -474,9 +433,7 @@ const RegisterForm = () => {
               }
               name="confirmPassword"
               placeholder="Confirm your password"
-              value={
-                formData.confirmPassword
-              }
+              value={formData.confirmPassword}
               onChange={handleChange}
               autoComplete="new-password"
               minLength={8}
@@ -493,6 +450,11 @@ const RegisterForm = () => {
                 )
               }
               disabled={loading}
+              aria-label={
+                showConfirmPassword
+                  ? "Hide confirm password"
+                  : "Show confirm password"
+              }
               className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-800"
             >
               {showConfirmPassword ? (
@@ -501,15 +463,12 @@ const RegisterForm = () => {
                 <FaEye size={18} />
               )}
             </button>
-
           </div>
-
         </div>
 
         {/* Role */}
 
         <div>
-
           <label className="block text-sm font-medium text-gray-700 mb-3">
             Select Account Type
           </label>
@@ -519,20 +478,17 @@ const RegisterForm = () => {
             {/* Customer */}
 
             <label
-              className={`cursor-pointer rounded-xl border-2 p-4 transition ${formData.role ===
-                "customer"
+              className={`cursor-pointer rounded-xl border-2 p-4 transition ${formData.role === "customer"
                 ? "border-yellow-500 bg-yellow-50"
                 : "border-gray-200 hover:border-yellow-300"
                 }`}
             >
-
               <input
                 type="radio"
                 name="role"
                 value="customer"
                 checked={
-                  formData.role ===
-                  "customer"
+                  formData.role === "customer"
                 }
                 onChange={handleChange}
                 disabled={loading}
@@ -540,7 +496,6 @@ const RegisterForm = () => {
               />
 
               <div className="text-center">
-
                 <div className="text-3xl mb-2">
                   👤
                 </div>
@@ -552,28 +507,23 @@ const RegisterForm = () => {
                 <p className="text-sm text-gray-500 mt-1">
                   I want to book services
                 </p>
-
               </div>
-
             </label>
 
             {/* Provider */}
 
             <label
-              className={`cursor-pointer rounded-xl border-2 p-4 transition ${formData.role ===
-                "provider"
+              className={`cursor-pointer rounded-xl border-2 p-4 transition ${formData.role === "provider"
                 ? "border-yellow-500 bg-yellow-50"
                 : "border-gray-200 hover:border-yellow-300"
                 }`}
             >
-
               <input
                 type="radio"
                 name="role"
                 value="provider"
                 checked={
-                  formData.role ===
-                  "provider"
+                  formData.role === "provider"
                 }
                 onChange={handleChange}
                 disabled={loading}
@@ -581,7 +531,6 @@ const RegisterForm = () => {
               />
 
               <div className="text-center">
-
                 <div className="text-3xl mb-2">
                   🧑‍💼
                 </div>
@@ -593,13 +542,10 @@ const RegisterForm = () => {
                 <p className="text-sm text-gray-500 mt-1">
                   I want to provide services
                 </p>
-
               </div>
-
             </label>
 
           </div>
-
         </div>
 
         {/* Submit */}
@@ -620,7 +566,6 @@ const RegisterForm = () => {
         {/* Login */}
 
         <p className="text-center text-sm text-gray-600">
-
           Already have an account?{" "}
 
           <Link
@@ -629,11 +574,9 @@ const RegisterForm = () => {
           >
             Login
           </Link>
-
         </p>
 
       </form>
-
     </div>
   );
 };

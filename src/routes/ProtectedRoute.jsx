@@ -1,19 +1,36 @@
 import {
   Navigate,
+  Outlet,
   useLocation,
 } from "react-router-dom";
 
 import useAuth from "../hooks/useAuth";
 
 const ProtectedRoute = ({
-  children,
   allowedRole,
 }) => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
 
   const location = useLocation();
 
-  // Login nahi hai
+  // =========================================
+  // WAIT FOR AUTHENTICATION TO LOAD
+  // =========================================
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-lg font-semibold">
+          Loading...
+        </p>
+      </div>
+    );
+  }
+
+  // =========================================
+  // USER NOT LOGGED IN
+  // =========================================
+
   if (!user) {
     return (
       <Navigate
@@ -26,7 +43,10 @@ const ProtectedRoute = ({
     );
   }
 
-  // Role match nahi hua
+  // =========================================
+  // CHECK USER ROLE
+  // =========================================
+
   if (
     allowedRole &&
     user.role !== allowedRole
@@ -39,7 +59,11 @@ const ProtectedRoute = ({
     );
   }
 
-  return children;
+  // =========================================
+  // RENDER NESTED ROUTE
+  // =========================================
+
+  return <Outlet />;
 };
 
 export default ProtectedRoute;

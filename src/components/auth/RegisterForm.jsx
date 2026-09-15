@@ -41,38 +41,56 @@ const RegisterForm = () => {
   // =================================================
 
   const validateForm = () => {
-    // Name
-    if (!formData.name.trim()) {
+    // -------------------------
+    // NAME
+    // -------------------------
+
+    const name = formData.name.trim();
+
+    if (!name) {
       return "Please enter your full name.";
     }
 
-    if (formData.name.trim().length < 2) {
+    if (name.length < 2) {
       return "Name must be at least 2 characters.";
     }
 
-    // Email
-    if (!formData.email.trim()) {
+    // -------------------------
+    // EMAIL
+    // -------------------------
+
+    const email = formData.email.trim().toLowerCase();
+
+    if (!email) {
       return "Please enter your email.";
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^\S+@\S+\.\S+$/;
 
-    if (!emailRegex.test(formData.email.trim())) {
+    if (!emailRegex.test(email)) {
       return "Please enter a valid email address.";
     }
 
-    // Phone
-    if (!formData.phone.trim()) {
+    // -------------------------
+    // PHONE
+    // -------------------------
+
+    const phone = formData.phone.trim();
+
+    if (!phone) {
       return "Please enter your phone number.";
     }
 
     const phoneRegex = /^[6-9][0-9]{9}$/;
 
-    if (!phoneRegex.test(formData.phone.trim())) {
+    if (!phoneRegex.test(phone)) {
       return "Please enter a valid 10-digit phone number.";
     }
 
-    // Password
+    // -------------------------
+    // PASSWORD
+    // -------------------------
+
     if (!formData.password) {
       return "Please enter your password.";
     }
@@ -84,7 +102,10 @@ const RegisterForm = () => {
       return "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character.";
     }
 
-    // Confirm Password
+    // -------------------------
+    // CONFIRM PASSWORD
+    // -------------------------
+
     if (!formData.confirmPassword) {
       return "Please confirm your password.";
     }
@@ -93,7 +114,10 @@ const RegisterForm = () => {
       return "Passwords do not match.";
     }
 
-    // Role
+    // -------------------------
+    // ROLE
+    // -------------------------
+
     if (!["customer", "provider"].includes(formData.role)) {
       return "Please select a valid account type.";
     }
@@ -110,7 +134,10 @@ const RegisterForm = () => {
 
     setError("");
 
-    // Validate form
+    // -------------------------
+    // VALIDATE
+    // -------------------------
+
     const validationError = validateForm();
 
     if (validationError) {
@@ -134,12 +161,15 @@ const RegisterForm = () => {
         role: formData.role,
       };
 
-      // Do not print real passwords in console
+      // Never print real passwords
       console.log("REGISTER PAYLOAD:", {
         ...payload,
         password: "HIDDEN",
         confirmPassword: "HIDDEN",
       });
+
+      console.log("REGISTER ROLE:", payload.role);
+      console.log("REGISTER EMAIL:", payload.email);
 
       // =================================================
       // API CALL
@@ -164,8 +194,15 @@ const RegisterForm = () => {
 
       console.log("API Called");
 
-      console.log("REGISTER STATUS:", response.status);
-      console.log("REGISTER OK:", response.ok);
+      console.log(
+        "REGISTER STATUS:",
+        response.status
+      );
+
+      console.log(
+        "REGISTER OK:",
+        response.ok
+      );
 
       // =================================================
       // RESPONSE
@@ -180,29 +217,12 @@ const RegisterForm = () => {
           "Response is not valid JSON:",
           jsonError
         );
-
-        data = {};
       }
 
-      console.log("REGISTER RESPONSE:", data);
-
-      // =================================================
-      // UNVERIFIED ACCOUNT
-      // =================================================
-
-      if (
-        data?.needsVerification &&
-        data?.email
-      ) {
-        navigate("/verify-otp", {
-          state: {
-            email: data.email,
-            role: payload.role,
-          },
-        });
-
-        return;
-      }
+      console.log(
+        "REGISTER RESPONSE:",
+        data
+      );
 
       // =================================================
       // BACKEND ERROR
@@ -223,14 +243,35 @@ const RegisterForm = () => {
       // SUCCESS
       // =================================================
 
+      if (
+        data?.needsVerification &&
+        data?.email
+      ) {
+        navigate("/verify-otp", {
+          state: {
+            email: data.email,
+            role: payload.role,
+          },
+        });
+
+        return;
+      }
+
       navigate("/verify-otp", {
         state: {
-          email: payload.email,
-          role: payload.role,
+          email:
+            data?.user?.email ||
+            payload.email,
+          role:
+            data?.user?.role ||
+            payload.role,
         },
       });
     } catch (error) {
-      console.error("REGISTER ERROR:", error);
+      console.error(
+        "REGISTER ERROR:",
+        error
+      );
 
       setError(
         "Unable to connect to server. Please check your internet connection and try again."
@@ -478,10 +519,10 @@ const RegisterForm = () => {
             {/* Customer */}
 
             <label
-              className={`cursor-pointer rounded-xl border-2 p-4 transition ${formData.role === "customer"
-                ? "border-yellow-500 bg-yellow-50"
-                : "border-gray-200 hover:border-yellow-300"
-                }`}
+              className={`cursor - pointer rounded - xl border - 2 p - 4 transition ${formData.role === "customer"
+                  ? "border-yellow-500 bg-yellow-50"
+                  : "border-gray-200 hover:border-yellow-300"
+                } `}
             >
               <input
                 type="radio"
@@ -513,10 +554,10 @@ const RegisterForm = () => {
             {/* Provider */}
 
             <label
-              className={`cursor-pointer rounded-xl border-2 p-4 transition ${formData.role === "provider"
-                ? "border-yellow-500 bg-yellow-50"
-                : "border-gray-200 hover:border-yellow-300"
-                }`}
+              className={`cursor - pointer rounded - xl border - 2 p - 4 transition ${formData.role === "provider"
+                  ? "border-yellow-500 bg-yellow-50"
+                  : "border-gray-200 hover:border-yellow-300"
+                } `}
             >
               <input
                 type="radio"
@@ -553,10 +594,10 @@ const RegisterForm = () => {
         <button
           type="submit"
           disabled={loading}
-          className={`w-full py-3 rounded-lg font-semibold text-white transition ${loading
-            ? "bg-yellow-400 cursor-not-allowed"
-            : "bg-yellow-500 hover:bg-yellow-600"
-            }`}
+          className={`w - full py - 3 rounded - lg font - semibold text - white transition ${loading
+              ? "bg-yellow-400 cursor-not-allowed"
+              : "bg-yellow-500 hover:bg-yellow-600"
+            } `}
         >
           {loading
             ? "Creating Account..."

@@ -76,7 +76,7 @@ const VerifyOTP = () => {
 
       const response =
         await fetch(
-          "https://clarito-backend-2.onrender.com/api/auth/verify-otp",
+          "https://clarito-backend-lh55.onrender.com/api/auth/verify-otp",
           {
             method: "POST",
 
@@ -163,7 +163,7 @@ const VerifyOTP = () => {
 
         const response =
           await fetch(
-            "https://clarito-backend-2.onrender.com/api/auth/resend-otp",
+            "https://clarito-backend-lh55.onrender.com/api/auth/resend-otp",
             {
               method: "POST",
 
@@ -314,9 +314,9 @@ const VerifyOTP = () => {
               otp.length !== 6
             }
             className={`w-full py-3 rounded-lg font-semibold text-white transition ${loading ||
-                otp.length !== 6
-                ? "bg-yellow-300 cursor-not-allowed"
-                : "bg-yellow-500 hover:bg-yellow-600"
+              otp.length !== 6
+              ? "bg-yellow-300 cursor-not-allowed"
+              : "bg-yellow-500 hover:bg-yellow-600"
               }`}
           >
             {loading

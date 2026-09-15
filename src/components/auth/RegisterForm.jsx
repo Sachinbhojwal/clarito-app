@@ -148,7 +148,7 @@ const RegisterForm = () => {
       console.log("Calling API...");
 
       const response = await fetch(
-        "https://clarito-backend-2.onrender.com/api/auth/register",
+        "https://clarito-backend-lh55.onrender.com/api/auth/register",
         {
           method: "POST",
 

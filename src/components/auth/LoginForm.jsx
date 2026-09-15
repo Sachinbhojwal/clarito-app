@@ -10,24 +10,16 @@ import useAuth from "../../hooks/useAuth";
 
 const LoginForm = () => {
   const navigate = useNavigate();
-
   const { login } = useAuth();
 
-  const [showPassword, setShowPassword] =
-    useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
-  const [loading, setLoading] =
-    useState(false);
-
-  const [rememberMe, setRememberMe] =
-    useState(false);
-
-  const [formData, setFormData] =
-    useState({
-      email: "",
-      password: "",
-    });
-
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
   // =====================================================
   // HANDLE INPUT
@@ -41,7 +33,6 @@ const LoginForm = () => {
       [name]: value,
     }));
   };
-
 
   // =====================================================
   // LOGIN
@@ -57,142 +48,156 @@ const LoginForm = () => {
     try {
       setLoading(true);
 
+      // =================================================
+      // BACKEND LOGIN API
+      // =================================================
 
-      // Get registered users
-      const savedUsers =
-        localStorage.getItem("users");
-
-      const users = savedUsers
-        ? JSON.parse(savedUsers)
-        : [];
-
-
-      // Find user
-      const user = users.find(
-        (item) =>
-          item?.email
-            ?.trim()
-            .toLowerCase() ===
-          formData.email
-            .trim()
-            .toLowerCase() &&
-          item?.password ===
-          formData.password
+      const response = await fetch(
+        "https://clarito-backend-lh55.onrender.com/api/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: formData.email.trim().toLowerCase(),
+            password: formData.password,
+          }),
+        }
       );
 
+      const data = await response.json();
 
-      // Invalid login
-      if (!user) {
+      console.log("LOGIN STATUS:", response.status);
+      console.log("LOGIN RESPONSE:", data);
+
+      // =================================================
+      // LOGIN FAILED
+      // =================================================
+
+      if (!response.ok) {
         alert(
+          data?.message ||
+          data?.error ||
           "Invalid Email or Password"
         );
 
         return;
       }
 
+      // =================================================
+      // GET USER FROM RESPONSE
+      // =================================================
 
-      // Normalize role
-      const normalizedRole =
-        user.role
-          ?.trim()
-          .toLowerCase();
+      const user = data?.user || data?.data?.user;
 
+      if (!user) {
+        console.error(
+          "Login response does not contain user:",
+          data
+        );
 
-      // Create clean user object
+        alert(
+          "Login successful, but user information was not received."
+        );
+
+        return;
+      }
+
+      // =================================================
+      // NORMALIZE ROLE
+      // =================================================
+
+      const normalizedRole = user?.role
+        ?.trim()
+        .toLowerCase();
+
+      if (!normalizedRole) {
+        alert("User role is missing.");
+
+        return;
+      }
+
+      // =================================================
+      // CLEAN USER OBJECT
+      // =================================================
+
       const loggedInUser = {
         ...user,
         role: normalizedRole,
       };
 
+      // =================================================
+      // SAVE AUTHENTICATION
+      // =================================================
 
-      // Save authentication
       login(loggedInUser);
 
+      // =================================================
+      // REMEMBER USER
+      // =================================================
 
-      // Remember user
       if (rememberMe) {
         localStorage.setItem(
           "rememberUser",
           JSON.stringify(loggedInUser)
         );
       } else {
-        localStorage.removeItem(
-          "rememberUser"
-        );
+        localStorage.removeItem("rememberUser");
       }
-
 
       // =================================================
       // REDIRECT BASED ON ROLE
       // =================================================
 
-      if (
-        normalizedRole ===
-        "provider"
-      ) {
-        navigate(
-          "/provider/dashboard",
-          { replace: true }
-        );
+      if (normalizedRole === "provider") {
+        navigate("/provider/dashboard", {
+          replace: true,
+        });
 
         return;
       }
 
-
-      if (
-        normalizedRole ===
-        "customer"
-      ) {
-        navigate(
-          "/customer/dashboard",
-          { replace: true }
-        );
+      if (normalizedRole === "customer") {
+        navigate("/customer/dashboard", {
+          replace: true,
+        });
 
         return;
       }
 
-
-      if (
-        normalizedRole ===
-        "admin"
-      ) {
-        navigate(
-          "/admin/dashboard",
-          { replace: true }
-        );
+      if (normalizedRole === "admin") {
+        navigate("/admin/dashboard", {
+          replace: true,
+        });
 
         return;
       }
 
-
-      // Unknown role
-      alert(
-        "Invalid user role"
-      );
-
-      navigate(
-        "/login",
-        { replace: true }
-      );
-
-    } catch (error) {
+      // =================================================
+      // UNKNOWN ROLE
+      // =================================================
 
       console.error(
-        "Login Error:",
-        error
+        "Unknown user role:",
+        normalizedRole
       );
+
+      alert("Invalid user role.");
+
+      navigate("/login", {
+        replace: true,
+      });
+    } catch (error) {
+      console.error("Login Error:", error);
 
       alert(
-        "Login Failed. Please try again."
+        "Unable to connect to server. Please try again."
       );
-
     } finally {
-
       setLoading(false);
-
     }
   };
-
 
   return (
     <div className="w-full max-w-md">
@@ -208,12 +213,10 @@ const LoginForm = () => {
         </h1>
 
         <p className="mt-3 text-gray-500">
-          Login to continue using
-          Clarito
+          Login to continue using Clarito
         </p>
 
       </div>
-
 
       {/* =================================================
           FORM
@@ -256,7 +259,6 @@ const LoginForm = () => {
 
         </div>
 
-
         {/* =================================================
             PASSWORD
         ================================================= */}
@@ -278,12 +280,8 @@ const LoginForm = () => {
               name="password"
               required
               autoComplete="current-password"
-              value={
-                formData.password
-              }
-              onChange={
-                handleChange
-              }
+              value={formData.password}
+              onChange={handleChange}
               placeholder="Enter Password"
               className="
                 w-full
@@ -317,19 +315,16 @@ const LoginForm = () => {
                 text-gray-500
               "
             >
-
               {showPassword ? (
                 <FaEyeSlash />
               ) : (
                 <FaEye />
               )}
-
             </button>
 
           </div>
 
         </div>
-
 
         {/* =================================================
             REMEMBER + FORGOT
@@ -354,9 +349,7 @@ const LoginForm = () => {
 
             <input
               type="checkbox"
-              checked={
-                rememberMe
-              }
+              checked={rememberMe}
               onChange={(e) =>
                 setRememberMe(
                   e.target.checked
@@ -367,7 +360,6 @@ const LoginForm = () => {
             Remember Me
 
           </label>
-
 
           <Link
             to="/forgot/password"
@@ -381,7 +373,6 @@ const LoginForm = () => {
           </Link>
 
         </div>
-
 
         {/* =================================================
             LOGIN BUTTON
@@ -403,13 +394,10 @@ const LoginForm = () => {
             disabled:opacity-60
           "
         >
-
           {loading
             ? "Logging In..."
             : "Login"}
-
         </button>
-
 
         {/* =================================================
             REGISTER

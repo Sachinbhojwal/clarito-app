@@ -1,15 +1,10 @@
-import {
-  useNavigate,
-} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const BackButton = () => {
-  const navigate =
-    useNavigate();
+  const navigate = useNavigate();
 
   const handleBack = () => {
-    if (
-      window.history.length > 1
-    ) {
+    if (window.history.length > 1) {
       navigate(-1);
     } else {
       navigate("/");
@@ -19,17 +14,26 @@ const BackButton = () => {
   return (
     <button
       onClick={handleBack}
+      aria-label="Go back"
+      title="Go back"
       className="
-      flex
-      items-center
-      gap-2
-      text-gray-700
-      hover:text-yellow-500
-      font-semibold
-      transition
+        flex
+        items-center
+        justify-center
+        w-10
+        h-10
+        rounded-full
+        text-gray-600
+        hover:text-white
+        hover:bg-red-500
+        transition-all
+        duration-200
+        text-2xl
+        font-bold
+        leading-none
       "
     >
-      ← Back
+      ×
     </button>
   );
 };

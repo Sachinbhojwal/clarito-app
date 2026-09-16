@@ -26,6 +26,7 @@ import Contact from "../pages/public/Contact";
 import Login from "../pages/public/Login";
 import Register from "../pages/public/Register";
 import VerifyOTP from "../pages/public/VerifyOTP";
+import ForgotPassword from "../pages/public/ForgotPassword";
 import AdminLogin from "../pages/public/AdminLogin";
 
 // =====================================================
@@ -144,22 +145,26 @@ const AppRoutes = () => {
         />
 
         <Route
-          path="/register"
-          element={<Register />}
-        />
-
-        <Route
-          path="/verify-otp"
-          element={<VerifyOTP />}
-        />
-
-        <Route
           path="/admin/login"
           element={<AdminLogin />}
         />
 
       </Route>
 
+      <Route
+        path="/register"
+        element={<Register />}
+      />
+
+      <Route
+        path="/verify-otp"
+        element={<VerifyOTP />}
+      />
+
+      <Route
+        path="/forgot/password"
+        element={<ForgotPassword />}
+      />
 
       {/* =================================================
           CUSTOMER ROUTES

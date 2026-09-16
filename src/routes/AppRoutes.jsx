@@ -27,6 +27,8 @@ import Login from "../pages/public/Login";
 import Register from "../pages/public/Register";
 import VerifyOTP from "../pages/public/VerifyOTP";
 import ForgotPassword from "../pages/public/ForgotPassword";
+import ResetPasswordOTP from "../pages/public/ResetPasswordOTP";
+import ResetPassword from "../pages/public/ResetPassword";
 import AdminLogin from "../pages/public/AdminLogin";
 
 // =====================================================
@@ -164,6 +166,16 @@ const AppRoutes = () => {
       <Route
         path="/forgot/password"
         element={<ForgotPassword />}
+      />
+
+      <Route
+        path="/reset-password-otp"
+        element={<ResetPasswordOTP />}
+      />
+
+      <Route
+        path="/reset-password"
+        element={<ResetPassword />}
       />
 
       {/* =================================================

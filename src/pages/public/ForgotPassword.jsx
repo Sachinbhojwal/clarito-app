@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import BackButton from "../../components/auth/BackButton";
 
 const ForgotPassword = () => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -13,7 +16,13 @@ const ForgotPassword = () => {
     setMessage("");
     setError("");
 
-    if (!email.trim()) {
+    const normalizedEmail = email.trim().toLowerCase();
+
+    // =================================================
+    // VALIDATION
+    // =================================================
+
+    if (!normalizedEmail) {
       setError("Please enter your email address.");
       return;
     }
@@ -21,15 +30,21 @@ const ForgotPassword = () => {
     try {
       setLoading(true);
 
+      // =================================================
+      // SEND RESET OTP
+      // =================================================
+
       const response = await fetch(
-        "https://clarito-backend-lh55.onrender.com/api/auth/forgot-password",
+        "https://clarito-backend-lh55.onrender.com/api/auth/forgot/password",
         {
           method: "POST",
+
           headers: {
             "Content-Type": "application/json",
           },
+
           body: JSON.stringify({
-            email: email.trim(),
+            email: normalizedEmail,
           }),
         }
       );
@@ -46,17 +61,37 @@ const ForgotPassword = () => {
         data
       );
 
+      // =================================================
+      // ERROR RESPONSE
+      // =================================================
+
       if (!response.ok) {
         throw new Error(
           data?.message ||
-          "Unable to send password reset OTP."
+            "Unable to send password reset OTP."
         );
       }
 
+      // =================================================
+      // SUCCESS
+      // =================================================
+
       setMessage(
         data?.message ||
-        "Password reset OTP sent successfully."
+          "Password reset OTP sent successfully."
       );
+
+      // =================================================
+      // GO TO OTP PAGE
+      // =================================================
+
+      setTimeout(() => {
+        navigate("/reset-password-otp", {
+          state: {
+            email: normalizedEmail,
+          },
+        });
+      }, 800);
     } catch (error) {
       console.error(
         "FORGOT PASSWORD ERROR:",
@@ -65,7 +100,7 @@ const ForgotPassword = () => {
 
       setError(
         error?.message ||
-        "Something went wrong. Please try again."
+          "Something went wrong. Please try again."
       );
     } finally {
       setLoading(false);
@@ -73,43 +108,96 @@ const ForgotPassword = () => {
   };
 
   return (
-    <main className="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 sm:py-8 md:px-8 lg:px-12">
+    <main
+      className="
+        min-h-screen
+        bg-slate-50
+        px-4
+        py-6
+        sm:px-6
+        sm:py-8
+        md:px-8
+        lg:px-12
+      "
+    >
+      {/* =================================================
+          PAGE CONTAINER
+      ================================================= */}
 
-      {/* Page Container */}
-      <div className="relative flex min-h-[calc(100vh-3rem)] items-center justify-center sm:min-h-[calc(100vh-4rem)]">
+      <div
+        className="
+          relative
+          flex
+          min-h-[calc(100vh-3rem)]
+          items-center
+          justify-center
+          sm:min-h-[calc(100vh-4rem)]
+        "
+      >
+        {/* =================================================
+            BACK BUTTON
+        ================================================= */}
 
-        {/* Back Button */}
-        <div className="absolute left-0 top-0 z-10">
+        <div
+          className="
+            absolute
+            left-0
+            top-0
+            z-10
+          "
+        >
           <BackButton />
         </div>
 
-        {/* Card */}
+        {/* =================================================
+            CARD
+        ================================================= */}
+
         <section
           className="
             w-full
             max-w-[380px]
-            sm:max-w-[430px]
-            md:max-w-[460px]
-            lg:max-w-[480px]
             rounded-2xl
             bg-white
-            px-5 py-7
+            px-5
+            py-7
             shadow-lg
-            sm:px-7 sm:py-8
-            md:px-9 md:py-9
-            lg:px-10 lg:py-10
+
+            sm:max-w-[430px]
+            sm:px-7
+            sm:py-8
+
+            md:max-w-[460px]
+            md:px-9
+            md:py-9
+
+            lg:max-w-[480px]
+            lg:px-10
+            lg:py-10
           "
         >
+          {/* =================================================
+              HEADER
+          ================================================= */}
 
-          {/* Heading */}
           <div className="text-center">
+            <div
+              className="
+                mb-4
+                text-4xl
+                sm:text-5xl
+              "
+            >
+              🔐
+            </div>
+
             <h1
               className="
                 text-2xl
                 font-bold
                 text-gray-900
+
                 sm:text-3xl
-                md:text-3xl
               "
             >
               Forgot Password
@@ -123,22 +211,84 @@ const ForgotPassword = () => {
                 text-sm
                 leading-6
                 text-gray-500
+
                 sm:text-base
               "
             >
-              Enter your registered email address and
-              we will send you an OTP to reset your
-              password.
+              Enter your registered email address
+              and we will send you an OTP to reset
+              your password.
             </p>
           </div>
 
-          {/* Form */}
+          {/* =================================================
+              ERROR MESSAGE
+          ================================================= */}
+
+          {error && (
+            <div
+              className="
+                mt-5
+                rounded-lg
+                border
+                border-red-200
+                bg-red-50
+                px-4
+                py-3
+              "
+            >
+              <p
+                className="
+                  text-sm
+                  leading-5
+                  text-red-600
+                "
+              >
+                {error}
+              </p>
+            </div>
+          )}
+
+          {/* =================================================
+              SUCCESS MESSAGE
+          ================================================= */}
+
+          {message && (
+            <div
+              className="
+                mt-5
+                rounded-lg
+                border
+                border-green-200
+                bg-green-50
+                px-4
+                py-3
+              "
+            >
+              <p
+                className="
+                  text-sm
+                  leading-5
+                  text-green-600
+                "
+              >
+                {message}
+              </p>
+            </div>
+          )}
+
+          {/* =================================================
+              FORM
+          ================================================= */}
+
           <form
             onSubmit={handleSubmit}
             className="mt-7 sm:mt-8"
           >
+            {/* =================================================
+                EMAIL
+            ================================================= */}
 
-            {/* Email */}
             <div>
               <label
                 htmlFor="email"
@@ -148,6 +298,7 @@ const ForgotPassword = () => {
                   text-sm
                   font-semibold
                   text-gray-700
+
                   sm:text-base
                 "
               >
@@ -158,11 +309,14 @@ const ForgotPassword = () => {
                 id="email"
                 type="email"
                 value={email}
-                onChange={(e) =>
-                  setEmail(e.target.value)
-                }
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setError("");
+                  setMessage("");
+                }}
                 placeholder="Enter your email"
                 autoComplete="email"
+                disabled={loading}
                 className="
                   w-full
                   rounded-xl
@@ -175,66 +329,25 @@ const ForgotPassword = () => {
                   text-gray-900
                   outline-none
                   transition
+
                   placeholder:text-gray-400
+
                   focus:border-blue-500
                   focus:ring-2
                   focus:ring-blue-100
+
+                  disabled:cursor-not-allowed
+                  disabled:bg-gray-100
+
                   sm:text-base
                 "
               />
             </div>
 
-            {/* Error */}
-            {error && (
-              <div
-                className="
-                  mt-4
-                  rounded-lg
-                  border
-                  border-red-200
-                  bg-red-50
-                  px-4
-                  py-3
-                "
-              >
-                <p
-                  className="
-                    text-sm
-                    leading-5
-                    text-red-600
-                  "
-                >
-                  {error}
-                </p>
-              </div>
-            )}
+            {/* =================================================
+                SEND OTP BUTTON
+            ================================================= */}
 
-            {/* Success */}
-            {message && (
-              <div
-                className="
-                  mt-4
-                  rounded-lg
-                  border
-                  border-green-200
-                  bg-green-50
-                  px-4
-                  py-3
-                "
-              >
-                <p
-                  className="
-                    text-sm
-                    leading-5
-                    text-green-600
-                  "
-                >
-                  {message}
-                </p>
-              </div>
-            )}
-
-            {/* Button */}
             <button
               type="submit"
               disabled={loading}
@@ -248,14 +361,18 @@ const ForgotPassword = () => {
                 text-sm
                 font-semibold
                 text-white
-                transition
+                transition-all
                 duration-200
+
                 hover:bg-blue-700
+
                 focus:outline-none
                 focus:ring-2
                 focus:ring-blue-200
+
                 disabled:cursor-not-allowed
                 disabled:opacity-60
+
                 sm:py-3.5
                 sm:text-base
               "
@@ -266,7 +383,10 @@ const ForgotPassword = () => {
             </button>
           </form>
 
-          {/* Small Help Text */}
+          {/* =================================================
+              FOOT NOTE
+          ================================================= */}
+
           <p
             className="
               mt-6
@@ -274,13 +394,13 @@ const ForgotPassword = () => {
               text-xs
               leading-5
               text-gray-400
+
               sm:text-sm
             "
           >
-            You will receive a verification code on
-            your registered email address.
+            You will receive a verification code
+            on your registered email address.
           </p>
-
         </section>
       </div>
     </main>

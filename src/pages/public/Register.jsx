@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import RegisterForm from "../../components/auth/RegisterForm";
+import BackButton from "../../components/auth/BackButton";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -13,41 +14,23 @@ const Register = () => {
   };
 
   return (
-    <section className="min-h-screen bg-gray-100">
+    <section className="min-h-screen bg-gray-100 relative">
 
-      {/* Back Button */}
-      <button
-        onClick={handleBack}
+      {/* Cross Button */}
+      <div
         className="
           fixed
           top-4
-          left-4
+          right-4
           sm:top-6
-          sm:left-6
+          sm:right-6
           md:top-8
-          md:left-8
+          md:right-8
           z-50
-          flex
-          items-center
-          gap-2
-          rounded-lg
-          bg-white
-          px-3
-          py-2
-          sm:px-4
-          sm:py-2.5
-          text-sm
-          sm:text-base
-          font-semibold
-          text-gray-700
-          shadow-sm
-          hover:text-yellow-600
-          hover:shadow-md
-          transition
         "
       >
-        ← Back
-      </button>
+        <BackButton />
+      </div>
 
       {/* Main Content */}
       <div
